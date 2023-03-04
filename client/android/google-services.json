@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "519602794193",
+    "project_id": "homey-7b718",
+    "storage_bucket": "homey-7b718.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:519602794193:android:3d1b398a0d2d3ae2845ff0",
+        "android_client_info": {
+          "package_name": "com.korea.homey"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "519602794193-c8mpcirh1kcqc2koep3ir6fep83cr6po.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCooSkiW2axiqk1FU_j2UFPSNhWDQmSBuY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "519602794193-c8mpcirh1kcqc2koep3ir6fep83cr6po.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
