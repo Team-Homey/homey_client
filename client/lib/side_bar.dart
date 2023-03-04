@@ -22,9 +22,9 @@ class _CustomButtonTestState extends State<CustomButtonTest> {
             ),
             child: DropdownButton2(
               customButton: const Icon(
-                Icons.list,
+                Icons.menu,
                 color: Colors.white,
-                size: 46,
+                size: 56,
               ),
               items: [
                 ...MenuItems.firstItems.map(
