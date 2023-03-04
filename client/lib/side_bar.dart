@@ -17,14 +17,17 @@ class _CustomButtonTestState extends State<CustomButtonTest> {
       body: Center(
         child: DropdownButtonHideUnderline(
           child: Container(
-            decoration: const BoxDecoration(
-              color: Colors.amber,
-            ),
             child: DropdownButton2(
-              customButton: const Icon(
-                Icons.menu,
-                color: Colors.white,
-                size: 56,
+              customButton: Container(
+                height: 60,
+                width: 60,
+                decoration: const BoxDecoration(
+                  color: Colors.amber,
+                ),
+                child: const Icon(
+                  Icons.menu,
+                  color: Colors.white,
+                ),
               ),
               items: [
                 ...MenuItems.firstItems.map(
