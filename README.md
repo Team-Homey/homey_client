@@ -1,2 +1,2 @@
 # homey_client
-client application of homey
+2023 Google Solution Challenge - client application of homey
