@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 
+import 'login.dart';
+
 class CustomButtonTest extends StatefulWidget {
   const CustomButtonTest({Key? key}) : super(key: key);
 
@@ -117,7 +119,10 @@ class MenuItems {
         //Do something
         break;
       case MenuItems.logout:
-        //Do something
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const HomeyLogin()),
+        );
         break;
     }
   }

@@ -37,6 +37,10 @@ dependencies:
     flutter_native_splash: ^2.2.18
     dropdown_button2: ^2.0.0
     google_sign_in: ^6.0.2
+    firebase_auth: ^4.2.9
+    firebase_core: ^2.7.0
+    social_login_buttons: ^1.0.7
+    flutter_svg: ^2.0.2
     http: ^0.13.5
 
 dev_dependencies:
@@ -69,9 +73,8 @@ flutter:
     uses-material-design: true
 
     # To add assets to your application, add an assets section, like this:
-    # assets:
-    #   - images/a_dot_burr.jpeg
-    #   - images/a_dot_ham.jpeg
+    assets:
+        - assets/images/
 
     # An image asset can refer to one or more resolution-specific "variants", see
     # https://flutter.dev/assets-and-images/#resolution-aware
