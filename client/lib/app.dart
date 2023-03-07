@@ -23,7 +23,7 @@ class _MyStatefulWidgetState extends State<Homey> {
       style: optionStyle,
     ),
     Text(
-      'Index 1: Business',
+      'Index 1: Gallery',
       style: optionStyle,
     ),
     Text(
