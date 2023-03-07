@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 
 import 'side_bar.dart';
-import 'home.dart';
-
-// import Widget _listViewBody() from home.dart
+import 'pages/gallery.dart';
+import 'pages/home.dart';
+import 'pages/record.dart';
+import 'pages/recommend.dart';
+import 'pages/today.dart';
 
 class Homey extends StatefulWidget {
   const Homey({super.key});
@@ -17,27 +19,12 @@ class _MyStatefulWidgetState extends State<Homey> {
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
 
-  static const List<Widget> _widgetOptions = <Widget>[
-    Text(
-      'Index 0: Home',
-      style: optionStyle,
-    ),
-    Text(
-      'Index 1: Gallery',
-      style: optionStyle,
-    ),
-    Text(
-      'Index 2: School',
-      style: optionStyle,
-    ),
-    Text(
-      'Index 2: School',
-      style: optionStyle,
-    ),
-    Text(
-      'Index 2: School',
-      style: optionStyle,
-    ),
+  final List<Widget> _widgetOptions = <Widget>[
+    recommendShow(),
+    galleryShow(),
+    homeScreenShow(),
+    recordShow(),
+    todayShow(),
   ];
 
   void _onItemTapped(int index) {
