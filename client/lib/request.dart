@@ -1,28 +1,53 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-// import convert
-import 'dart:convert' as convert;
+import 'dart:convert';
 
-String url = 'http://34.64.211.177/authentication/';
-
-class info {
+class Authentication {
   final String email;
-  info(
-    this.email,
-  );
-  factory info.fromJson(Map<String, dynamic> json) {
-    return info(
-      json['email'],
+
+  const Authentication({required this.email});
+
+  factory Authentication.fromJson(Map<String, dynamic> json) {
+    return Authentication(
+      email: json['email'],
     );
   }
 }
 
-Future<info> fetchInfo() async {
-  final response = await http.get(Uri.parse(url));
-  if (response.statusCode == 200) {
-    print(response.body);
-    return info.fromJson(convert.jsonDecode(response.body));
+Future<Authentication> createAuth(String email) async {
+  final response = await http.post(
+    Uri.parse('http://localhost:8080/authentication/'),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+    },
+    body: jsonEncode(<String, String>{
+      'email': email,
+    }),
+  );
+
+  if (response.statusCode == 201) {
+    // If the server did return a 201 CREATED response,
+    // then parse the JSON.
+    return Authentication.fromJson(jsonDecode(response.body));
   } else {
-    throw Exception('Failed to load info');
+    // If the server did not return a 201 CREATED response,
+    // then throw an exception.
+    throw Exception('Failed to create auth.');
   }
+}
+
+FutureBuilder<Authentication> buildFutureBuilder(
+    Future<Authentication>? futureAuth) {
+  return FutureBuilder<Authentication>(
+    future: futureAuth,
+    builder: (context, snapshot) {
+      if (snapshot.hasData) {
+        return Text(snapshot.data!.email);
+      } else if (snapshot.hasError) {
+        return Text('${snapshot.error}');
+      }
+
+      return const CircularProgressIndicator();
+    },
+  );
 }

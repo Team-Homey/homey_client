@@ -204,7 +204,7 @@ class _SignUpState extends State<SignUp> {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
         foregroundColor: Colors.amber,
-        disabledForegroundColor: Color.fromARGB(255, 24, 24, 24),
+        disabledForegroundColor: const Color.fromARGB(255, 24, 24, 24),
       ),
       onPressed: () {
         if (formKey.currentState == null) {
@@ -212,7 +212,11 @@ class _SignUpState extends State<SignUp> {
         } else if (formKey.currentState!.validate()) {
           formKey.currentState!.save();
           print("email: $email");
-
+          Future<Authentication>? futureAuth;
+          setState(() {
+            futureAuth = createAuth(email);
+          });
+          buildFutureBuilder(futureAuth);
           showDialog<void>(
             context: context,
             builder: (BuildContext context) {
