@@ -3,8 +3,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:http/http.dart' as http;
 
 import 'app.dart';
-import 'request.dart';
-import 'response.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({Key? key}) : super(key: key);
@@ -212,11 +210,8 @@ class _SignUpState extends State<SignUp> {
         } else if (formKey.currentState!.validate()) {
           formKey.currentState!.save();
           print("email: $email");
-          Future<Authentication>? futureAuth;
-          setState(() {
-            futureAuth = createAuth(email);
-          });
-          buildFutureBuilder(futureAuth);
+          //request
+
           showDialog<void>(
             context: context,
             builder: (BuildContext context) {

@@ -42,7 +42,10 @@ dependencies:
     social_login_buttons: ^1.0.7
     flutter_svg: ^2.0.2
     http: ^0.13.5
+    dio: ^5.0.1
     custom_navigation_bar: ^0.8.2
+    retrofit: ^4.0.1
+    json_annotation: ^4.8.0
 
 dev_dependencies:
     flutter_test:
@@ -55,6 +58,9 @@ dev_dependencies:
     # rules and activating additional ones.
     flutter_lints: ^2.0.0
     flutter_launcher_icons: ^0.12.0
+    build_runner: ^2.3.3
+    json_serializable: ^6.6.1
+    retrofit_generator: ^6.0.0+1
 
 flutter_icons:
     android: true
