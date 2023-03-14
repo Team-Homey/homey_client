@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 
-import 'login.dart';
+import 'google_login.dart';
 
 class CustomButtonTest extends StatefulWidget {
   const CustomButtonTest({Key? key}) : super(key: key);
@@ -128,61 +128,61 @@ class MenuItems {
       case MenuItems.profile:
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => const HomeyLogin()),
+          MaterialPageRoute(builder: (context) => GoogleLogin()),
         );
         break;
       case MenuItems.gallery:
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => const HomeyLogin()),
+          MaterialPageRoute(builder: (context) => GoogleLogin()),
         );
         break;
       case MenuItems.recommendation:
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => const HomeyLogin()),
+          MaterialPageRoute(builder: (context) => GoogleLogin()),
         );
         break;
       case MenuItems.records:
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => const HomeyLogin()),
+          MaterialPageRoute(builder: (context) => GoogleLogin()),
         );
         break;
       case MenuItems.level:
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => const HomeyLogin()),
+          MaterialPageRoute(builder: (context) => GoogleLogin()),
         );
         break;
       case MenuItems.video:
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => const HomeyLogin()),
+          MaterialPageRoute(builder: (context) => GoogleLogin()),
         );
         break;
       case MenuItems.todo:
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => const HomeyLogin()),
+          MaterialPageRoute(builder: (context) => GoogleLogin()),
         );
         break;
       case MenuItems.contact:
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => const HomeyLogin()),
+          MaterialPageRoute(builder: (context) => GoogleLogin()),
         );
         break;
       case MenuItems.settings:
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => const HomeyLogin()),
+          MaterialPageRoute(builder: (context) => GoogleLogin()),
         );
         break;
       case MenuItems.logout:
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => const HomeyLogin()),
+          MaterialPageRoute(builder: (context) => GoogleLogin()),
         );
         break;
     }

@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:social_login_buttons/social_login_buttons.dart';
 
 import 'custom_log_interceptor.dart';
 import 'rest_client.dart';
@@ -23,69 +24,24 @@ class DioResultPage extends StatelessWidget {
     };
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Dio'),
-      ),
-      body: Center(
-          // child: FutureBuilder<User?>(
-          //   future: restClient.getUser(id: 1),
-          //   builder: (context, snapshot) {
-          //     if (snapshot.hasData) {
-          //       User? userInfo = snapshot.data;
-          //       if (userInfo != null) {
-          //         Data userData = userInfo.data;
-          //         return Column(
-          //           mainAxisSize: MainAxisSize.min,
-          //           children: [
-          //             Image.network(userData.avatar),
-          //             const SizedBox(height: 16.0),
-          //             Text(
-          //               '${userInfo.data.firstName} ${userInfo.data.lastName}',
-          //               style: const TextStyle(fontSize: 24.0),
-          //             ),
-          //             Text(
-          //               userData.email,
-          //               style: const TextStyle(fontSize: 24.0),
-          //             ),
-          //           ],
-          //         );
-          //       }
-          //     }
-          //     return const CircularProgressIndicator();
-          //   },
-          // ),
-
-          ///ping test
-          // child: FutureBuilder<String?>(
-          //   future: restClient.pingTest(),
-          //   builder: (context, snapshot) {
-          //     if (snapshot.hasData) {
-          //       String? pingResult = snapshot.data;
-          //       if (pingResult != null) {
-          //         return Text(
-          //           pingResult,
-          //           style: const TextStyle(fontSize: 24.0),
-          //         );
-          //       }
-          //     }
-          //     return const CircularProgressIndicator();
-          //   },
-          // ),
-          /// authentication test
-          child: FutureBuilder<String?>(
-              future: restClient.authenticationTest(email: jsonEmail),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  String? authenticationResult = snapshot.data;
-                  if (authenticationResult != null) {
-                    return Text(
-                      authenticationResult,
-                      style: const TextStyle(fontSize: 24.0),
-                    );
-                  }
-                }
-                return const CircularProgressIndicator();
-              })),
-    );
+        appBar: AppBar(
+          title: const Text('Dio'),
+        ),
+        body: Center(
+            child: FutureBuilder<Data?>(
+          future: restClient.authentication(jsondata: jsonEmail),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              Data? authenticationResult = snapshot.data;
+              if (authenticationResult != null) {
+                return Text(
+                  authenticationResult.alreadyRegistered.toString(),
+                  style: const TextStyle(fontSize: 24.0),
+                );
+              }
+            }
+            return const CircularProgressIndicator();
+          },
+        )));
   }
 }

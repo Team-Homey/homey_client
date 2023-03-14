@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -16,73 +17,28 @@ abstract class RestClient {
   @GET('/ping')
   Future<String> pingTest();
 
-  /// Authentication
+  /// Authentication with name, email, picture
   @POST('/authentication')
-  Future<String> authenticationTest({@Body() required email});
+  Future<Data> authentication({@Body() required jsondata});
 
   @POST('/authentication/refresh')
   Future<String> refreshAuthentication({@Body() required refreshToken});
 
-  // /// User
-  // @PATCH('/user')
-  // Future<User> updateUser({@Body() required User user});
-
-  // @GET('/user/{id}')
-  // Future<User> getUser({@Path() required int id});
-
   // @GET('/user/my-info')
   // Future<User> getMyInfo();
-
-  // @POST('/user/emotion')
-  // Future<String> updateEmotion({@Body() required String emotion});
-
-  // @POST('/user/family')
-  // Future<String> updateFamily({@Body() required String familyCode});
-
-  // /// Family
-  // @POST('/family')
-  // Future<String> createFamily({@Body() required String familyName});
-
-  // @GET('/family/my-family')
-  // Future<String> getMyFamily();
-
-  /// Photo
-
-  /// Question
-  /// Answer
-  /// Comment
-  /// Recomme
-}
-
-@JsonSerializable()
-class User {
-  User({
-    required this.data,
-  });
-
-  Data data;
-
-  factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
-  Map<String, dynamic> toJson() => _$UserToJson(this);
 }
 
 @JsonSerializable()
 class Data {
   Data({
-    required this.id,
-    required this.email,
-    required this.firstName,
-    required this.lastName,
-    required this.avatar,
+    required this.accessToken,
+    required this.refreshToken,
+    required this.alreadyRegistered,
   });
 
-  int id;
-  String email;
-  @JsonKey(name: 'first_name')
-  String firstName;
-  @JsonKey(name: 'last_name')
-  String lastName;
-  String avatar;
+  String accessToken;
+  String refreshToken;
+  bool alreadyRegistered;
 
   factory Data.fromJson(Map<String, dynamic> json) => _$DataFromJson(json);
   Map<String, dynamic> toJson() => _$DataToJson(this);

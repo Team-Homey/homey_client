@@ -14,9 +14,7 @@ class SignUp extends StatefulWidget {
 class _SignUpState extends State<SignUp> {
   final formKey = GlobalKey<FormState>();
 
-  String name = '';
   String contact = '';
-  String email = '';
   String birthday = '';
   String sex = '';
   String role = '';
@@ -46,41 +44,13 @@ class _SignUpState extends State<SignUp> {
             scrollDirection: Axis.vertical,
             child: Center(
               child: Column(children: [
-                // Name, Contact, E-mail, Birthday, Sex, Role in your family, Address
+                // Contact, Birthday, Sex, Role in your family, Address
                 const SizedBox(height: 50),
                 SvgPicture.asset('assets/images/Logo_White.svg',
                     semanticsLabel: 'Loding screen',
                     width: MediaQuery.of(context).size.width * 0.6,
                     fit: BoxFit.fill),
                 const SizedBox(height: 30),
-                renderTextFormField(
-                  label: 'Name',
-                  onSaved: (val) {
-                    setState(() {
-                      name = val!;
-                    });
-                  },
-                  validator: (val) {
-                    if (val == null || val.isEmpty) {
-                      return '이름을 입력해주세요!';
-                    }
-                    return null;
-                  },
-                ),
-                renderTextFormField(
-                  label: 'E-mail',
-                  onSaved: (val) {
-                    setState(() {
-                      email = val;
-                    });
-                  },
-                  validator: (val) {
-                    if (val == null || val.isEmpty) {
-                      return '이메일을 입력해주세요!';
-                    }
-                    return null;
-                  },
-                ),
                 renderTextFormField(
                   label: 'Contact',
                   onSaved: (val) {
@@ -206,11 +176,9 @@ class _SignUpState extends State<SignUp> {
       ),
       onPressed: () {
         if (formKey.currentState == null) {
-          //print("formKey.currentState is null");
+          print("formKey.currentState is null");
         } else if (formKey.currentState!.validate()) {
           formKey.currentState!.save();
-          print("email: $email");
-          //request
 
           showDialog<void>(
             context: context,

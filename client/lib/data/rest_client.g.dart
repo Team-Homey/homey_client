@@ -6,28 +6,16 @@ part of 'rest_client.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-User _$UserFromJson(Map<String, dynamic> json) => User(
-      data: Data.fromJson(json['data'] as Map<String, dynamic>),
-    );
-
-Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
-      'data': instance.data,
-    };
-
 Data _$DataFromJson(Map<String, dynamic> json) => Data(
-      id: json['id'] as int,
-      email: json['email'] as String,
-      firstName: json['first_name'] as String,
-      lastName: json['last_name'] as String,
-      avatar: json['avatar'] as String,
+      accessToken: json['accessToken'] as String,
+      refreshToken: json['refreshToken'] as String,
+      alreadyRegistered: json['alreadyRegistered'] as bool,
     );
 
 Map<String, dynamic> _$DataToJson(Data instance) => <String, dynamic>{
-      'id': instance.id,
-      'email': instance.email,
-      'first_name': instance.firstName,
-      'last_name': instance.lastName,
-      'avatar': instance.avatar,
+      'accessToken': instance.accessToken,
+      'refreshToken': instance.refreshToken,
+      'alreadyRegistered': instance.alreadyRegistered,
     };
 
 // **************************************************************************
@@ -71,24 +59,25 @@ class _RestClient implements RestClient {
   }
 
   @override
-  Future<String> authenticationTest({required email}) async {
+  Future<Data> authentication({required jsondata}) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    final _data = email;
-    final _result = await _dio.fetch<String>(_setStreamType<String>(Options(
+    final _data = jsondata;
+    final _result =
+        await _dio.fetch<Map<String, dynamic>>(_setStreamType<Data>(Options(
       method: 'POST',
       headers: _headers,
       extra: _extra,
     )
-        .compose(
-          _dio.options,
-          '/authentication',
-          queryParameters: queryParameters,
-          data: _data,
-        )
-        .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = _result.data!;
+            .compose(
+              _dio.options,
+              '/authentication',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = Data.fromJson(_result.data!);
     return value;
   }
 

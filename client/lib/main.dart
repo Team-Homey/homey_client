@@ -5,7 +5,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 
-import 'login.dart';
+import 'google_login.dart';
 import 'data/dio_result_page.dart';
 
 void main() {
@@ -13,10 +13,8 @@ void main() {
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   // if login is successful, runApp(Homey())
   runApp(
-    MaterialApp(
-        title: 'Homey',
-        //home: HomeyLogin(),
-        home: DioResultPage()),
+    MaterialApp(title: 'Homey', home: GoogleLogin()),
+    //home: DioResultPage()),
   );
   FlutterNativeSplash.remove();
 }
