@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:social_login_buttons/social_login_buttons.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:dio/dio.dart';
-// import 'package:google_sign_in/google_sign_in.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'app.dart';
 import 'sign_up.dart';
+
 import 'data/rest_client.dart';
 import 'data/custom_log_interceptor.dart';
 
@@ -39,6 +38,8 @@ class HomeyLogin extends StatelessWidget {
             if (authenticationResult != null) {
               if (authenticationResult.alreadyRegistered == true) {
                 valid = true;
+                setString(authenticationResult.accessToken,
+                    authenticationResult.refreshToken);
               } else {
                 valid = false;
               }
@@ -56,5 +57,11 @@ class HomeyLogin extends StatelessWidget {
     } else {
       return const SignUp();
     }
+  }
+
+  void setString(String accessToken, String refreshToken) async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setString('accessToken', accessToken);
+    prefs.setString('refreshToken', refreshToken);
   }
 }

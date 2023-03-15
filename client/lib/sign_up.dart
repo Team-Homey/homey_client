@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:http/http.dart' as http;
 
-import 'app.dart';
+import 'family/set_family.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({Key? key}) : super(key: key);
@@ -199,7 +198,8 @@ class _SignUpState extends State<SignUp> {
                       Navigator.of(context).pop();
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => const Homey()),
+                        MaterialPageRoute(
+                            builder: (context) => const SetFamily()),
                       );
                     },
                   ),

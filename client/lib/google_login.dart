@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:social_login_buttons/social_login_buttons.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:dio/dio.dart';
 // import 'package:google_sign_in/google_sign_in.dart';
 
 import 'login.dart';
 
-// home_login()
 class GoogleLogin extends StatelessWidget {
   GoogleLogin({Key? key}) : super(key: key);
 
@@ -34,8 +32,8 @@ class GoogleLogin extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => HomeyLogin(
-                          email: 'leeyou6750@gmail.com', name: 'Yurim')),
+                      builder: (context) =>
+                          HomeyLogin(email: 'test4', name: 'Yurim')),
                 );
               })
         ])));
