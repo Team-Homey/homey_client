@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:social_login_buttons/social_login_buttons.dart';
 
 import 'custom_log_interceptor.dart';
 import 'rest_client.dart';
@@ -18,30 +17,24 @@ class DioResultPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final restClient = RestClient(dio);
     const email = 'leeyou6757@gmail.com';
+    const name = 'Yurim';
     // email to json
-    final jsonEmail = {
-      'email': email,
-    };
+    final jsonEmail = {'email': email, 'name': name};
 
     return Scaffold(
         appBar: AppBar(
           title: const Text('Dio'),
         ),
         body: Center(
-            child: FutureBuilder<Data?>(
-          future: restClient.authentication(jsondata: jsonEmail),
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              Data? authenticationResult = snapshot.data;
-              if (authenticationResult != null) {
-                return Text(
-                  authenticationResult.alreadyRegistered.toString(),
-                  style: const TextStyle(fontSize: 24.0),
-                );
+          child: FutureBuilder<String>(
+            future: restClient.pingTest(),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return Text(snapshot.data!);
               }
-            }
-            return const CircularProgressIndicator();
-          },
-        )));
+              return const Text('No data');
+            },
+          ),
+        ));
   }
 }

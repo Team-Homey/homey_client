@@ -4,7 +4,7 @@ class CustomLogInterceptor extends Interceptor {
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
     print(
-        'REQUEST[${options.method}] => PATH: ${options.path}, \n\tDATA: ${options.data}');
+        'REQUEST[${options.method}] => PATH: ${options.path}, \n\tHEADER: ${options.headers}\n\tDATA: ${options.data}');
     super.onRequest(options, handler);
   }
 

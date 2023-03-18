@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -26,6 +25,11 @@ abstract class RestClient {
 
   // @GET('/user/my-info')
   // Future<User> getMyInfo();
+
+  /// Family
+  @POST('/family')
+  Future<Family> createFamily(
+      {@Header('Authorization') required token, @Body() required jsondata});
 }
 
 @JsonSerializable()
@@ -42,4 +46,22 @@ class Data {
 
   factory Data.fromJson(Map<String, dynamic> json) => _$DataFromJson(json);
   Map<String, dynamic> toJson() => _$DataToJson(this);
+}
+
+@JsonSerializable()
+class Family {
+  Family({
+    required this.id,
+    required this.name,
+    required this.code,
+    required this.regDate,
+  });
+
+  int id;
+  String name;
+  String code;
+  String regDate;
+
+  factory Family.fromJson(Map<String, dynamic> json) => _$FamilyFromJson(json);
+  Map<String, dynamic> toJson() => _$FamilyToJson(this);
 }

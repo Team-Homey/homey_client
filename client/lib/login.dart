@@ -10,13 +10,27 @@ import 'data/custom_log_interceptor.dart';
 
 bool valid = false;
 
-// home_login(email, name)
 class HomeyLogin extends StatelessWidget {
   HomeyLogin({Key? key, required this.email, required this.name})
       : super(key: key);
   final String email;
   final String name;
   final dio = Dio()..interceptors.add(CustomLogInterceptor());
+  final prefs = SharedPreferences.getInstance();
+
+  void setString(String accessToken, String refreshToken) async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setString('accessToken', accessToken);
+    prefs.setString('refreshToken', refreshToken);
+  }
+
+  Widget paging(bool valid) {
+    if (valid) {
+      return const Homey();
+    } else {
+      return const SignUp();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,19 +63,5 @@ class HomeyLogin extends StatelessWidget {
         },
       )),
     );
-  }
-
-  Widget paging(bool valid) {
-    if (valid) {
-      return const Homey();
-    } else {
-      return const SignUp();
-    }
-  }
-
-  void setString(String accessToken, String refreshToken) async {
-    final prefs = await SharedPreferences.getInstance();
-    prefs.setString('accessToken', accessToken);
-    prefs.setString('refreshToken', refreshToken);
   }
 }

@@ -14,7 +14,6 @@ class SetFamily extends StatefulWidget {
 class SetFamilyState extends State<SetFamily> {
   @override
   Widget build(BuildContext context) {
-    // logo image, build new family button, join family button
     return MaterialApp(
         title: 'My Family',
         theme: ThemeData(
@@ -29,8 +28,8 @@ class SetFamilyState extends State<SetFamily> {
                 Navigator.pop(context);
               },
             ),
-            title:
-                const Text('My Family', style: TextStyle(color: Colors.white)),
+            title: const Text('Family Invite / Join',
+                style: TextStyle(color: Colors.white)),
           ),
           body: Center(
             child: Column(

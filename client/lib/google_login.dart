@@ -25,7 +25,6 @@ class GoogleLogin extends StatelessWidget {
               backgroundColor: Colors.blueAccent,
               disabledBackgroundColor: Colors.blueAccent.withOpacity(1),
               textColor: Colors.white,
-              imageURL: 'assets/images/google.png',
               text: "Sign up with Google",
               width: 350,
               onPressed: () {
@@ -33,7 +32,7 @@ class GoogleLogin extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                       builder: (context) =>
-                          HomeyLogin(email: 'test4', name: 'Yurim')),
+                          HomeyLogin(email: 'test22', name: 'Yurim')),
                 );
               })
         ])));

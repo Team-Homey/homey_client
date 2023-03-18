@@ -18,6 +18,20 @@ Map<String, dynamic> _$DataToJson(Data instance) => <String, dynamic>{
       'alreadyRegistered': instance.alreadyRegistered,
     };
 
+Family _$FamilyFromJson(Map<String, dynamic> json) => Family(
+      id: json['id'] as int,
+      name: json['name'] as String,
+      code: json['code'] as String,
+      regDate: json['regDate'] as String,
+    );
+
+Map<String, dynamic> _$FamilyToJson(Family instance) => <String, dynamic>{
+      'id': instance.id,
+      'name': instance.name,
+      'code': instance.code,
+      'regDate': instance.regDate,
+    };
+
 // **************************************************************************
 // RetrofitGenerator
 // **************************************************************************
@@ -100,6 +114,33 @@ class _RestClient implements RestClient {
         )
         .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = _result.data!;
+    return value;
+  }
+
+  @override
+  Future<Family> createFamily({
+    required token,
+    required jsondata,
+  }) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{r'Authorization': token};
+    _headers.removeWhere((k, v) => v == null);
+    final _data = jsondata;
+    final _result =
+        await _dio.fetch<Map<String, dynamic>>(_setStreamType<Family>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/family',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = Family.fromJson(_result.data!);
     return value;
   }
 
