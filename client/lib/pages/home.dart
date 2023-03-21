@@ -1,52 +1,82 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:dio/dio.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-import '../data/rest_client.dart';
 import '../data/custom_log_interceptor.dart';
+import '../data/rest_client.dart';
 
-String token = '';
-void getToken() async {
-  final SharedPreferences pref = await SharedPreferences.getInstance();
-  try {
-    token = pref.getString('accessToken')!;
-  } catch (e) {}
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({Key? key}) : super(key: key);
+
+  @override
+  HomeScreenState createState() => HomeScreenState();
 }
 
-Widget homeScreenShow() {
-  getToken();
+class HomeScreenState extends State<HomeScreen> {
+  late var _accessToken = '';
+  late SharedPreferences _prefs;
 
-  return Container();
-}
+  final dio = Dio()..interceptors.add(CustomLogInterceptor());
+  final prefs = SharedPreferences.getInstance();
 
-class DioResultPage extends StatelessWidget {
-  DioResultPage({Key? key}) : super(key: key);
-  final dio = Dio()
-    ..interceptors.add(
-      CustomLogInterceptor(),
-    );
+  @override
+  void initState() {
+    super.initState();
+    _loadToken();
+  }
+
+  _loadToken() async {
+    _prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _accessToken = _prefs.getString('accessToken') ?? '';
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     final restClient = RestClient(dio);
-    return Scaffold(
-        appBar: AppBar(
-          title: const Text('Dio'),
+    return MaterialApp(
+      home: Scaffold(
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text('Home'),
+              Text('accessToken: $_accessToken'),
+              // FutureBuilder<String?>(
+              //     future: restClient.getMyFamilyString(
+              //         token: 'Bearer $_accessToken'),
+              //     builder: (context, snapshot) {
+              //       if (snapshot.hasData) {
+              //         String? familyMember = snapshot.data;
+              //         if (familyMember != null) {
+              //           return Text('Family name : $familyMember');
+              //         }
+              //       }
+              //       return Container(
+              //         child: Text('Family error1'),
+              //       );
+              //     })
+
+              FutureBuilder<String?>(
+                future:
+                    restClient.getMyInfoString(token: 'Bearer $_accessToken'),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    String? user = snapshot.data;
+                    if (user != null) {
+                      return Text('Family name : $user');
+                    }
+                  }
+                  return Container(
+                    child: Text('Family error1'),
+                  );
+                },
+              )
+            ],
+          ),
         ),
-        body: Center(child: FutureBuilder<Data?>(
-          //future: restClient.authentication(jsondata: jsonEmail),
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              Data? authenticationResult = snapshot.data;
-              if (authenticationResult != null) {
-                return Text(
-                  authenticationResult.alreadyRegistered.toString(),
-                  style: const TextStyle(fontSize: 24.0),
-                );
-              }
-            }
-            return const CircularProgressIndicator();
-          },
-        )));
+      ),
+    );
   }
 }

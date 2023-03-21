@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:dio/dio.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'family/set_family.dart';
+import '../data/rest_client.dart';
+import '../data/custom_log_interceptor.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({Key? key}) : super(key: key);
@@ -18,6 +22,24 @@ class _SignUpState extends State<SignUp> {
   String sex = '';
   String role = '';
   String address = '';
+  String _accessToken = '';
+
+  late SharedPreferences _prefs;
+  final dio = Dio()..interceptors.add(CustomLogInterceptor());
+  final prefs = SharedPreferences.getInstance();
+
+  @override
+  void initState() {
+    super.initState();
+    _loadToken();
+  }
+
+  _loadToken() async {
+    _prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _accessToken = _prefs.getString('accessToken') ?? '';
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -195,6 +217,24 @@ class _SignUpState extends State<SignUp> {
                   TextButton(
                     child: const Text('OK'),
                     onPressed: () {
+                      // request to server user info
+                      final dio = Dio()
+                        ..interceptors.add(CustomLogInterceptor());
+                      final restClient = RestClient(dio);
+                      var jsondata = {
+                        'age': 20,
+                        'gender': sex,
+                        'address': address,
+                        'picture': 'pic',
+                        'birth': birthday,
+                        'familyRole': role,
+                      };
+
+                      if (_accessToken != '') {
+                        restClient.updateMyInfo(
+                            token: 'Bearer $_accessToken', jsondata: jsondata);
+                      } else {}
+
                       Navigator.of(context).pop();
                       Navigator.push(
                         context,

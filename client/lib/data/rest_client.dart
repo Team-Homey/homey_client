@@ -16,20 +16,34 @@ abstract class RestClient {
   @GET('/ping')
   Future<String> pingTest();
 
-  /// Authentication with name, email, picture
+  /// Authentication
   @POST('/authentication')
   Future<Data> authentication({@Body() required jsondata});
 
   @POST('/authentication/refresh')
   Future<String> refreshAuthentication({@Body() required refreshToken});
 
-  // @GET('/user/my-info')
-  // Future<User> getMyInfo();
+  /// User
+  @PATCH('/user')
+  Future<String> updateMyInfo(
+      {@Header('Authorization') required token, @Body() required jsondata});
+
+  @GET('/user/my-info')
+  Future<User> getMyInfo({@Header('Authorization') required token});
+
+  @GET('/user/my-info')
+  Future<String> getMyInfoString({@Header('Authorization') required token});
 
   /// Family
   @POST('/family')
   Future<Family> createFamily(
       {@Header('Authorization') required token, @Body() required jsondata});
+
+  @GET('/family/my-family')
+  Future<FamilyMember> getMyFamily({@Header('Authorization') required token});
+
+  @GET('/family/my-family')
+  Future<String> getMyFamilyString({@Header('Authorization') required token});
 }
 
 @JsonSerializable()
@@ -49,6 +63,35 @@ class Data {
 }
 
 @JsonSerializable()
+class User {
+  User({
+    required this.id,
+    required this.email,
+    required this.age,
+    required this.gender,
+    required this.address,
+    required this.picture,
+    required this.regDate,
+    required this.birth,
+    required this.familyRole,
+    required this.emotion,
+  });
+  String id;
+  String email;
+  int age;
+  String gender;
+  String address;
+  String picture;
+  String regDate;
+  String birth;
+  String familyRole;
+  String emotion;
+
+  factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
+  Map<String, dynamic> toJson() => _$UserToJson(this);
+}
+
+@JsonSerializable()
 class Family {
   Family({
     required this.id,
@@ -64,4 +107,25 @@ class Family {
 
   factory Family.fromJson(Map<String, dynamic> json) => _$FamilyFromJson(json);
   Map<String, dynamic> toJson() => _$FamilyToJson(this);
+}
+
+@JsonSerializable()
+class FamilyMember {
+  FamilyMember({
+    required this.id,
+    required this.name,
+    required this.code,
+    required this.regDate,
+    required this.users,
+  });
+
+  int id;
+  String name;
+  String code;
+  String regDate;
+  List<User> users;
+
+  factory FamilyMember.fromJson(Map<String, dynamic> json) =>
+      _$FamilyMemberFromJson(json);
+  Map<String, dynamic> toJson() => _$FamilyMemberToJson(this);
 }

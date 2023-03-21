@@ -18,6 +18,32 @@ Map<String, dynamic> _$DataToJson(Data instance) => <String, dynamic>{
       'alreadyRegistered': instance.alreadyRegistered,
     };
 
+User _$UserFromJson(Map<String, dynamic> json) => User(
+      id: json['id'] as String,
+      email: json['email'] as String,
+      age: json['age'] as int,
+      gender: json['gender'] as String,
+      address: json['address'] as String,
+      picture: json['picture'] as String,
+      regDate: json['regDate'] as String,
+      birth: json['birth'] as String,
+      familyRole: json['familyRole'] as String,
+      emotion: json['emotion'] as String,
+    );
+
+Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
+      'id': instance.id,
+      'email': instance.email,
+      'age': instance.age,
+      'gender': instance.gender,
+      'address': instance.address,
+      'picture': instance.picture,
+      'regDate': instance.regDate,
+      'birth': instance.birth,
+      'familyRole': instance.familyRole,
+      'emotion': instance.emotion,
+    };
+
 Family _$FamilyFromJson(Map<String, dynamic> json) => Family(
       id: json['id'] as int,
       name: json['name'] as String,
@@ -30,6 +56,25 @@ Map<String, dynamic> _$FamilyToJson(Family instance) => <String, dynamic>{
       'name': instance.name,
       'code': instance.code,
       'regDate': instance.regDate,
+    };
+
+FamilyMember _$FamilyMemberFromJson(Map<String, dynamic> json) => FamilyMember(
+      id: json['id'] as int,
+      name: json['name'] as String,
+      code: json['code'] as String,
+      regDate: json['regDate'] as String,
+      users: (json['users'] as List<dynamic>)
+          .map((e) => User.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+
+Map<String, dynamic> _$FamilyMemberToJson(FamilyMember instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'name': instance.name,
+      'code': instance.code,
+      'regDate': instance.regDate,
+      'users': instance.users,
     };
 
 // **************************************************************************
@@ -118,6 +163,79 @@ class _RestClient implements RestClient {
   }
 
   @override
+  Future<String> updateMyInfo({
+    required token,
+    required jsondata,
+  }) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{r'Authorization': token};
+    _headers.removeWhere((k, v) => v == null);
+    final _data = jsondata;
+    final _result = await _dio.fetch<String>(_setStreamType<String>(Options(
+      method: 'PATCH',
+      headers: _headers,
+      extra: _extra,
+    )
+        .compose(
+          _dio.options,
+          '/user',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = _result.data!;
+    return value;
+  }
+
+  @override
+  Future<User> getMyInfo({required token}) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{r'Authorization': token};
+    _headers.removeWhere((k, v) => v == null);
+    final Map<String, dynamic>? _data = null;
+    final _result =
+        await _dio.fetch<Map<String, dynamic>>(_setStreamType<User>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/user/my-info',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = User.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<String> getMyInfoString({required token}) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{r'Authorization': token};
+    _headers.removeWhere((k, v) => v == null);
+    final Map<String, dynamic>? _data = null;
+    final _result = await _dio.fetch<String>(_setStreamType<String>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+        .compose(
+          _dio.options,
+          '/user/my-info',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = _result.data!;
+    return value;
+  }
+
+  @override
   Future<Family> createFamily({
     required token,
     required jsondata,
@@ -141,6 +259,53 @@ class _RestClient implements RestClient {
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = Family.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<FamilyMember> getMyFamily({required token}) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{r'Authorization': token};
+    _headers.removeWhere((k, v) => v == null);
+    final Map<String, dynamic>? _data = null;
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<FamilyMember>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/family/my-family',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = FamilyMember.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<String> getMyFamilyString({required token}) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{r'Authorization': token};
+    _headers.removeWhere((k, v) => v == null);
+    final Map<String, dynamic>? _data = null;
+    final _result = await _dio.fetch<String>(_setStreamType<String>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+        .compose(
+          _dio.options,
+          '/family/my-family',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = _result.data!;
     return value;
   }
 

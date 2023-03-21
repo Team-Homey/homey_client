@@ -16,10 +16,11 @@ class Homey extends StatefulWidget {
 
 class _MyStatefulWidgetState extends State<Homey> {
   int _selectedIndex = 2;
+
   final List<Widget> _widgetOptions = <Widget>[
     recommendShow(),
-    homeScreenShow(),
     galleryShow(),
+    HomeScreen(),
     recordShow(),
     todayShow(),
   ];
