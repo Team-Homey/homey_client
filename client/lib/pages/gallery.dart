@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class galleryShow extends StatefulWidget {
-  const galleryShow({Key? key}) : super(key: key);
+class GalleryShow extends StatefulWidget {
+  const GalleryShow({Key? key}) : super(key: key);
 
   @override
   _galleryShowState createState() => _galleryShowState();
 }
 
-class _galleryShowState extends State<galleryShow> {
+class _galleryShowState extends State<GalleryShow> {
   List<String> images = [
     'assets/images/sampleImage/png/image1.png',
     'assets/images/sampleImage/png/image2.png',

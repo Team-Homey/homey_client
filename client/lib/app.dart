@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'side_bar.dart';
 import 'pages/gallery.dart';
 import 'pages/home.dart';
-import 'pages/record.dart';
 import 'pages/recommend.dart';
 import 'pages/today.dart';
+import 'pages/profile.dart';
 
 class Homey extends StatefulWidget {
   const Homey({super.key});
@@ -15,14 +15,14 @@ class Homey extends StatefulWidget {
 }
 
 class _MyStatefulWidgetState extends State<Homey> {
-  int _selectedIndex = 2;
+  int _selectedIndex = 3;
 
   final List<Widget> _widgetOptions = <Widget>[
-    recommendShow(),
-    galleryShow(),
+    RecommendShow(),
+    GalleryShow(),
     HomeScreen(),
-    recordShow(),
-    todayShow(),
+    TodayShow(),
+    ProfileShow(),
   ];
 
   void _onItemTapped(int index) {
@@ -77,12 +77,12 @@ class _MyStatefulWidgetState extends State<Homey> {
                 label: 'Home',
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.edit_note),
-                label: 'My Record',
+                icon: Icon(Icons.emoji_emotions),
+                label: 'Today',
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.favorite),
-                label: "Today",
+                icon: Icon(Icons.account_circle),
+                label: "Profile",
               ),
             ],
             currentIndex: _selectedIndex,

@@ -24,14 +24,6 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   @override
   void initState() {
-    controller = FlutterGifController(vsync: this);
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      controller.repeat(
-        min: 0,
-        max: 53,
-        period: const Duration(milliseconds: 200),
-      );
-    });
     super.initState();
     _loadToken();
   }
@@ -42,25 +34,31 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     setState(() {
       _accessToken = _prefs.getString('accessToken') ?? '';
     });
-    FutureBuilder<String?>(
-      future: restClient.getMyFamilyString(token: 'Bearer $_accessToken'),
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          String? fmaily = snapshot.data;
-          return Text('$fmaily');
-        }
-        return Container(
-          child: Text('Family error1'),
-        );
-      },
-    );
+    // FutureBuilder<String?>(
+    //   future: restClient.getMyFamilyString(token: 'Bearer $_accessToken'),
+    //   builder: (context, snapshot) {
+    //     if (snapshot.hasData) {
+    //       String? fmaily = snapshot.data;
+    //       return Text('$fmaily');
+    //     }
+    //     return Container(
+    //       child: Text('Family error1'),
+    //     );
+    //   },
+    // );
   }
 
   @override
   Widget build(BuildContext context) {
-    List<String> family_member = ["Yurim", "Yohan", "Taejin", "Seoyeon"];
-
+    List<String> family_member = ["Yurim", "Yohwan", "Taejin", "Seoyeon"];
     int me = 0;
+
+    controller = FlutterGifController(vsync: this);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      controller.repeat(min: 0, max: 15, period: const Duration(seconds: 5));
+      controller.value = 0;
+      controller.animateTo(15, duration: const Duration(milliseconds: 200));
+    });
 
     return MaterialApp(
       //set Background
@@ -80,7 +78,7 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Container(
-                  height: MediaQuery.of(context).size.height * 0.67,
+                  height: MediaQuery.of(context).size.height * 0.68,
                   width: MediaQuery.of(context).size.width,
                   child: Stack(children: [
                     Center(
@@ -98,15 +96,15 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         ),
                       ],
                     )),
-                    // Positioned(
-                    //     top: MediaQuery.of(context).size.height * 0.4,
-                    //     left: MediaQuery.of(context).size.width * 0.07,
-                    //     child: GifImage(
-                    //       width: 100,
-                    //       height: 100,
-                    //       controller: controller,
-                    //       image: AssetImage("assets/images/bee.gif"),
-                    //     ))
+                    Positioned(
+                        top: MediaQuery.of(context).size.height * 0.4,
+                        left: MediaQuery.of(context).size.width * 0.07,
+                        child: GifImage(
+                          width: 150,
+                          height: 150,
+                          controller: controller,
+                          image: AssetImage("assets/images/bee.gif"),
+                        ))
                   ])),
 
               // family progile listview
@@ -167,3 +165,5 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     );
   }
 }
+
+// emotion class with self.number

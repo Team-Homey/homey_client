@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
 
-Widget recommendShow() {
+Widget RecommendShow() {
   return Container();
 }
