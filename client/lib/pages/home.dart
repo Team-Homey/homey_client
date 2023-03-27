@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:circular_profile_avatar/circular_profile_avatar.dart';
+import 'package:flutter_gif/flutter_gif.dart';
 
 import '../data/custom_log_interceptor.dart';
 import '../data/rest_client.dart';
@@ -13,15 +14,24 @@ class HomeScreen extends StatefulWidget {
   HomeScreenState createState() => HomeScreenState();
 }
 
-class HomeScreenState extends State<HomeScreen> {
+class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   late var _accessToken = '';
   late SharedPreferences _prefs;
 
   final dio = Dio()..interceptors.add(CustomLogInterceptor());
   final prefs = SharedPreferences.getInstance();
+  late FlutterGifController controller;
 
   @override
   void initState() {
+    controller = FlutterGifController(vsync: this);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      controller.repeat(
+        min: 0,
+        max: 53,
+        period: const Duration(milliseconds: 200),
+      );
+    });
     super.initState();
     _loadToken();
   }
@@ -32,27 +42,28 @@ class HomeScreenState extends State<HomeScreen> {
     setState(() {
       _accessToken = _prefs.getString('accessToken') ?? '';
     });
-    // FutureBuilder<String?>(
-    //   future: restClient.getMyFamilyString(token: 'Bearer $_accessToken'),
-    //   builder: (context, snapshot) {
-    //     if (snapshot.hasData) {
-    //       String? fmaily = snapshot.data;
-    //       return Text('$fmaily');
-    //     }
-    //     return Container(
-    //       child: Text('Family error1'),
-    //     );
-    //   },
-    // );
+    FutureBuilder<String?>(
+      future: restClient.getMyFamilyString(token: 'Bearer $_accessToken'),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          String? fmaily = snapshot.data;
+          return Text('$fmaily');
+        }
+        return Container(
+          child: Text('Family error1'),
+        );
+      },
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     List<String> family_member = ["Yurim", "Yohan", "Taejin", "Seoyeon"];
+
     int me = 0;
+
     return MaterialApp(
       //set Background
-
       home: Scaffold(
         body: Container(
           decoration: const BoxDecoration(
@@ -68,17 +79,36 @@ class HomeScreenState extends State<HomeScreen> {
               child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Image(
-                image: const AssetImage('assets/images/honeyCombBar.png'),
-                height: MediaQuery.of(context).size.height * 0.08,
-              ),
-              Image(
-                image: const AssetImage('assets/images/honeyComb.png'),
-                height: MediaQuery.of(context).size.height * 0.4,
-              ),
               Container(
-                height: MediaQuery.of(context).size.height * 0.2,
-              ),
+                  height: MediaQuery.of(context).size.height * 0.67,
+                  width: MediaQuery.of(context).size.width,
+                  child: Stack(children: [
+                    Center(
+                        child: Column(
+                      children: [
+                        Image(
+                          image: const AssetImage(
+                              'assets/images/honeyCombBar.png'),
+                          height: MediaQuery.of(context).size.height * 0.08,
+                        ),
+                        Image(
+                          image:
+                              const AssetImage('assets/images/honeyComb.png'),
+                          height: MediaQuery.of(context).size.height * 0.4,
+                        ),
+                      ],
+                    )),
+                    // Positioned(
+                    //     top: MediaQuery.of(context).size.height * 0.4,
+                    //     left: MediaQuery.of(context).size.width * 0.07,
+                    //     child: GifImage(
+                    //       width: 100,
+                    //       height: 100,
+                    //       controller: controller,
+                    //       image: AssetImage("assets/images/bee.gif"),
+                    //     ))
+                  ])),
+
               // family progile listview
               Container(
                 height: MediaQuery.of(context).size.height * 0.15,
@@ -92,18 +122,37 @@ class HomeScreenState extends State<HomeScreen> {
                       alignment: Alignment.center,
                       child: Column(
                         children: [
-                          CircularProfileAvatar(
-                            '',
-                            borderColor: index == me
-                                ? const Color(0xFFFFC107)
-                                : Colors.white,
-                            borderWidth: 3,
-                            elevation: 5,
-                            radius: 40,
-                            child: const Image(
-                              image: AssetImage('assets/images/unknown.png'),
+                          Stack(children: [
+                            CircularProfileAvatar(
+                              '',
+                              borderColor: index == me
+                                  ? const Color(0xFFFFC107)
+                                  : Colors.white,
+                              borderWidth: 3,
+                              elevation: 5,
+                              radius: 40,
+                              child: const Image(
+                                image: AssetImage('assets/images/unknown.png'),
+                              ),
                             ),
-                          ),
+                            Positioned(
+                              bottom: 0,
+                              right: 0,
+                              child: Container(
+                                height: 20,
+                                width: 20,
+                                decoration: const BoxDecoration(
+                                  color: Colors.amber,
+                                  shape: BoxShape.circle,
+                                ),
+                                child: const Icon(
+                                  Icons.check,
+                                  color: Colors.white,
+                                  size: 15,
+                                ),
+                              ),
+                            ),
+                          ]),
                           Text(family_member[index]),
                         ],
                       ),
