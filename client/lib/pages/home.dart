@@ -26,55 +26,55 @@ class HomeScreenState extends State<HomeScreen> {
   }
 
   _loadToken() async {
+    final restClient = RestClient(dio);
     _prefs = await SharedPreferences.getInstance();
     setState(() {
       _accessToken = _prefs.getString('accessToken') ?? '';
     });
+    // FutureBuilder<String?>(
+    //   future: restClient.getMyFamilyString(token: 'Bearer $_accessToken'),
+    //   builder: (context, snapshot) {
+    //     if (snapshot.hasData) {
+    //       String? fmaily = snapshot.data;
+    //       return Text('$fmaily');
+    //     }
+    //     return Container(
+    //       child: Text('Family error1'),
+    //     );
+    //   },
+    // );
   }
 
   @override
   Widget build(BuildContext context) {
-    final restClient = RestClient(dio);
     return MaterialApp(
-      home: Scaffold(
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text('Home'),
-              Text('accessToken: $_accessToken'),
-              // FutureBuilder<String?>(
-              //     future: restClient.getMyFamilyString(
-              //         token: 'Bearer $_accessToken'),
-              //     builder: (context, snapshot) {
-              //       if (snapshot.hasData) {
-              //         String? familyMember = snapshot.data;
-              //         if (familyMember != null) {
-              //           return Text('Family name : $familyMember');
-              //         }
-              //       }
-              //       return Container(
-              //         child: Text('Family error1'),
-              //       );
-              //     })
+      //set Background
 
-              FutureBuilder<String?>(
-                future:
-                    restClient.getMyInfoString(token: 'Bearer $_accessToken'),
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    String? user = snapshot.data;
-                    if (user != null) {
-                      return Text('Family name : $user');
-                    }
-                  }
-                  return Container(
-                    child: Text('Family error1'),
-                  );
-                },
-              )
+      home: Scaffold(
+        body: Container(
+          decoration: const BoxDecoration(
+              gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              Color(0xFFE3FFFA),
+              Color(0xFFFFFFFF),
             ],
-          ),
+          )),
+          child: Center(
+              child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Image(
+                image: const AssetImage('assets/images/honeyCombBar.png'),
+                height: MediaQuery.of(context).size.height * 0.08,
+              ),
+              Image(
+                image: const AssetImage('assets/images/honeyComb.png'),
+                height: MediaQuery.of(context).size.height * 0.4,
+              ),
+            ],
+          )),
         ),
       ),
     );
