@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:circular_profile_avatar/circular_profile_avatar.dart';
 
 import '../data/custom_log_interceptor.dart';
 import '../data/rest_client.dart';
@@ -47,6 +48,8 @@ class HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    List<String> family_member = ["Yurim", "Yohan", "Taejin", "Seoyeon"];
+    int me = 0;
     return MaterialApp(
       //set Background
 
@@ -72,6 +75,41 @@ class HomeScreenState extends State<HomeScreen> {
               Image(
                 image: const AssetImage('assets/images/honeyComb.png'),
                 height: MediaQuery.of(context).size.height * 0.4,
+              ),
+              Container(
+                height: MediaQuery.of(context).size.height * 0.2,
+              ),
+              // family progile listview
+              Container(
+                height: MediaQuery.of(context).size.height * 0.15,
+                width: MediaQuery.of(context).size.width * 0.8,
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: family_member.length,
+                  itemBuilder: (context, index) {
+                    return Container(
+                      width: MediaQuery.of(context).size.width * 0.2,
+                      alignment: Alignment.center,
+                      child: Column(
+                        children: [
+                          CircularProfileAvatar(
+                            '',
+                            borderColor: index == me
+                                ? const Color(0xFFFFC107)
+                                : Colors.white,
+                            borderWidth: 3,
+                            elevation: 5,
+                            radius: 40,
+                            child: const Image(
+                              image: AssetImage('assets/images/unknown.png'),
+                            ),
+                          ),
+                          Text(family_member[index]),
+                        ],
+                      ),
+                    );
+                  },
+                ),
               ),
             ],
           )),
