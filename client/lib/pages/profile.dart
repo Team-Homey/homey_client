@@ -39,7 +39,7 @@ class ProfileState extends State<ProfileShow> {
           return Text('$user');
         }
         return Container(
-          child: Text('Profile error1'),
+          child: Text('Profile error'),
         );
       },
     );

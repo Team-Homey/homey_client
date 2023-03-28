@@ -68,56 +68,77 @@ class BuildNewFamilyState extends State<BuildNewFamily> {
                   children: <Widget>[
                     // fmaily name input
                     Form(
-                      key: _formKey,
-                      child: TextFormField(
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          labelText: 'Family Name',
-                        ),
-                        onSaved: (value) {
-                          familyName = String.fromCharCodes(value!.codeUnits);
-                        },
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter some text';
-                          }
-                          return null;
-                        },
-                      ),
-                    ),
-                    // build new family button
+                        key: _formKey,
+                        child: SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.8,
+                          child: TextFormField(
+                            decoration: const InputDecoration(
+                              border: OutlineInputBorder(),
+                              labelText: 'Family Name',
+                            ),
+                            onSaved: (value) {
+                              familyName =
+                                  String.fromCharCodes(value!.codeUnits);
+                            },
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please enter some text';
+                              } else {
+                                flag = true;
+                              }
+                              return null;
+                            },
+                          ),
+                        )),
+                    const SizedBox(height: 20),
                     ElevatedButton(
-                      onPressed: () async {
-                        if (_formKey.currentState!.validate()) {
-                          _formKey.currentState!.save();
-                          jsondata = {
-                            'name': familyName,
-                          };
-                          //accessToken = 'Bearer $_accessToken'
-                          await restClient.createFamily(
-                              token: 'Bearer $_accessToken',
-                              jsondata: jsondata);
-                          flag = true;
-                        }
-                      },
-                      child: const Text('Build New Family'),
-                    ),
-                    //navigate to homey
+                        onPressed: () async {
+                          if (_formKey.currentState!.validate()) {
+                            _formKey.currentState!.save();
+                            jsondata = {
+                              'name': familyName,
+                            };
 
+                            await restClient.createFamily(
+                                token: 'Bearer $_accessToken',
+                                jsondata: jsondata);
+                          }
+                        },
+                        style: ElevatedButton.styleFrom(
+                          minimumSize:
+                              Size(MediaQuery.of(context).size.width * 0.8, 50),
+                          backgroundColor: flag ? Colors.amber : Colors.grey,
+                        ),
+                        child: const Text(
+                          'Build New Family',
+                          style: TextStyle(
+                            color: Colors.white,
+                          ),
+                        )),
+
+                    const SizedBox(height: 20),
                     ElevatedButton(
-                      onPressed: () {
-                        if (flag) {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const Homey()),
-                          );
-                        }
-                      },
-                      // if flag is true, navigate to homey
-                      //if flag is false, do nothing
-                      child: const Text('Go to Homey'),
-                    ),
+                        onPressed: () {
+                          if (_formKey.currentState!.validate()) {
+                            _formKey.currentState!.save();
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const Homey()),
+                            );
+                          }
+                        },
+                        style: ElevatedButton.styleFrom(
+                          minimumSize:
+                              Size(MediaQuery.of(context).size.width * 0.8, 50),
+                          backgroundColor: flag ? Colors.amber : Colors.grey,
+                        ),
+                        child: const Text(
+                          'Go to Homey',
+                          style: TextStyle(
+                            color: Colors.white,
+                          ),
+                        )),
                   ]),
             )));
   }

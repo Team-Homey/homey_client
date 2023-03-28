@@ -34,6 +34,10 @@ abstract class RestClient {
   @GET('/user/my-info')
   Future<String> getMyInfoString({@Header('Authorization') required token});
 
+  @POST('/user/family')
+  Future<String> joinFamily(
+      {@Header('Authorization') required token, @Body() required jsondata});
+
   /// Family
   @POST('/family')
   Future<Family> createFamily(

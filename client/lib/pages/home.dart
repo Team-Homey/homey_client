@@ -1,8 +1,10 @@
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:circular_profile_avatar/circular_profile_avatar.dart';
 import 'package:flutter_gif/flutter_gif.dart';
+import 'package:slowly_moving_widgets_field/slowly_moving_widgets_field.dart';
 
 import '../data/custom_log_interceptor.dart';
 import '../data/rest_client.dart';
@@ -14,18 +16,24 @@ class HomeScreen extends StatefulWidget {
   HomeScreenState createState() => HomeScreenState();
 }
 
-class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
+class HomeScreenState extends State<HomeScreen> //with TickerProviderStateMixin
+{
   late var _accessToken = '';
   late SharedPreferences _prefs;
+  late FlutterGifController controller;
 
   final dio = Dio()..interceptors.add(CustomLogInterceptor());
   final prefs = SharedPreferences.getInstance();
-  late FlutterGifController controller;
 
   @override
   void initState() {
     super.initState();
     _loadToken();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   _loadToken() async {
@@ -34,31 +42,43 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     setState(() {
       _accessToken = _prefs.getString('accessToken') ?? '';
     });
-    // FutureBuilder<String?>(
-    //   future: restClient.getMyFamilyString(token: 'Bearer $_accessToken'),
-    //   builder: (context, snapshot) {
-    //     if (snapshot.hasData) {
-    //       String? fmaily = snapshot.data;
-    //       return Text('$fmaily');
-    //     }
-    //     return Container(
-    //       child: Text('Family error1'),
-    //     );
-    //   },
-    // );
+    FutureBuilder<String?>(
+      future: restClient.getMyFamilyString(token: 'Bearer $_accessToken'),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          String? fmaily = snapshot.data;
+          return Text('$fmaily');
+        }
+        return Container(
+          child: Text('Family error1'),
+        );
+      },
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     List<String> family_member = ["Yurim", "Yohwan", "Taejin", "Seoyeon"];
     int me = 0;
+    List<Moving> bee = [];
 
-    controller = FlutterGifController(vsync: this);
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      controller.repeat(min: 0, max: 15, period: const Duration(seconds: 5));
-      controller.value = 0;
-      controller.animateTo(15, duration: const Duration(milliseconds: 200));
-    });
+    // controller = FlutterGifController(vsync: this);
+    // WidgetsBinding.instance.addPostFrameCallback((_) {
+    //   controller.repeat(min: 0, max: 15, period: const Duration(seconds: 5));
+    //   controller.value = 0;
+    //   controller.animateTo(15, duration: const Duration(milliseconds: 200));
+    // });
+    // bee.add(Moving(
+    //   child: Container(
+    //       child: GifImage(
+    //     width: 150,
+    //     height: 150,
+    //     controller: controller,
+    //     image: const AssetImage("assets/images/bee.gif"),
+    //   )),
+    //   height: 50,
+    //   width: 50,
+    // ));
 
     return MaterialApp(
       //set Background
@@ -96,15 +116,7 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         ),
                       ],
                     )),
-                    Positioned(
-                        top: MediaQuery.of(context).size.height * 0.4,
-                        left: MediaQuery.of(context).size.width * 0.07,
-                        child: GifImage(
-                          width: 150,
-                          height: 150,
-                          controller: controller,
-                          image: AssetImage("assets/images/bee.gif"),
-                        ))
+                    //SlowlyMovingWidgetsField(list: bee),
                   ])),
 
               // family progile listview
@@ -128,7 +140,7 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                   : Colors.white,
                               borderWidth: 3,
                               elevation: 5,
-                              radius: 40,
+                              radius: 38,
                               child: const Image(
                                 image: AssetImage('assets/images/unknown.png'),
                               ),
