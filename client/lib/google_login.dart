@@ -32,7 +32,7 @@ class GoogleLogin extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                       builder: (context) =>
-                          HomeyLogin(email: 'ee', name: 'ee')),
+                          HomeyLogin(email: 'test6', name: 'test6')),
                 );
               })
         ])));

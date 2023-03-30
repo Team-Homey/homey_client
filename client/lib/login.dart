@@ -52,11 +52,11 @@ class HomeyLogin extends StatelessWidget {
             if (authenticationResult != null) {
               if (authenticationResult.alreadyRegistered == true) {
                 valid = true;
-                setString(authenticationResult.accessToken,
-                    authenticationResult.refreshToken);
               } else {
                 valid = false;
               }
+              setString(authenticationResult.accessToken,
+                  authenticationResult.refreshToken);
             }
           }
           return paging(valid);

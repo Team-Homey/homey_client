@@ -23,7 +23,6 @@ class HomeScreenState extends State<HomeScreen> //with TickerProviderStateMixin
   late FlutterGifController controller;
 
   final dio = Dio()..interceptors.add(CustomLogInterceptor());
-  final prefs = SharedPreferences.getInstance();
 
   @override
   void initState() {

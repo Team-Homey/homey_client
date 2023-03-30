@@ -24,9 +24,7 @@ class _SignUpState extends State<SignUp> {
   String address = '';
   String _accessToken = '';
 
-  late SharedPreferences _prefs;
   final dio = Dio()..interceptors.add(CustomLogInterceptor());
-  final prefs = SharedPreferences.getInstance();
 
   @override
   void initState() {
@@ -35,9 +33,9 @@ class _SignUpState extends State<SignUp> {
   }
 
   _loadToken() async {
-    _prefs = await SharedPreferences.getInstance();
+    final prefs = await SharedPreferences.getInstance();
     setState(() {
-      _accessToken = _prefs.getString('accessToken') ?? '';
+      _accessToken = prefs.getString('accessToken') ?? '';
     });
   }
 
@@ -225,7 +223,7 @@ class _SignUpState extends State<SignUp> {
                         'age': 20,
                         'gender': sex,
                         'address': address,
-                        'picture': 'pic',
+                        'picture': 'https://i.imgur.com/BoN9kdC.png',
                         'birth': birthday,
                         'familyRole': role,
                       };

@@ -35,7 +35,7 @@ abstract class RestClient {
   Future<String> getMyInfoString({@Header('Authorization') required token});
 
   @POST('/user/family')
-  Future<String> joinFamily(
+  Future<String?> joinFamily(
       {@Header('Authorization') required token, @Body() required jsondata});
 
   /// Family
@@ -44,7 +44,7 @@ abstract class RestClient {
       {@Header('Authorization') required token, @Body() required jsondata});
 
   @GET('/family/my-family')
-  Future<FamilyMember> getMyFamily({@Header('Authorization') required token});
+  Future<FamilyInfo> getMyFamily({@Header('Authorization') required token});
 
   @GET('/family/my-family')
   Future<String> getMyFamilyString({@Header('Authorization') required token});
@@ -71,6 +71,7 @@ class User {
   User({
     required this.id,
     required this.email,
+    required this.name,
     required this.age,
     required this.gender,
     required this.address,
@@ -78,19 +79,19 @@ class User {
     required this.regDate,
     required this.birth,
     required this.familyRole,
-    required this.emotion,
   });
-  String id;
+  int? id;
   String email;
-  int age;
-  String gender;
-  String address;
-  String picture;
-  String regDate;
-  String birth;
-  String familyRole;
-  String emotion;
+  String? name;
+  int? age;
+  String? gender;
+  String? address;
+  String? picture;
+  String? regDate;
+  String? birth;
+  String? familyRole;
 
+  // factory with null safety
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
   Map<String, dynamic> toJson() => _$UserToJson(this);
 }
@@ -114,12 +115,13 @@ class Family {
 }
 
 @JsonSerializable()
-class FamilyMember {
-  FamilyMember({
+class FamilyInfo {
+  FamilyInfo({
     required this.id,
     required this.name,
     required this.code,
     required this.regDate,
+    required this.point,
     required this.users,
   });
 
@@ -127,9 +129,10 @@ class FamilyMember {
   String name;
   String code;
   String regDate;
+  int point;
   List<User> users;
 
-  factory FamilyMember.fromJson(Map<String, dynamic> json) =>
-      _$FamilyMemberFromJson(json);
-  Map<String, dynamic> toJson() => _$FamilyMemberToJson(this);
+  factory FamilyInfo.fromJson(Map<String, dynamic> json) =>
+      _$FamilyInfoFromJson(json);
+  Map<String, dynamic> toJson() => _$FamilyInfoToJson(this);
 }

@@ -19,21 +19,22 @@ Map<String, dynamic> _$DataToJson(Data instance) => <String, dynamic>{
     };
 
 User _$UserFromJson(Map<String, dynamic> json) => User(
-      id: json['id'] as String,
+      id: json['id'] as int?,
       email: json['email'] as String,
-      age: json['age'] as int,
-      gender: json['gender'] as String,
-      address: json['address'] as String,
-      picture: json['picture'] as String,
-      regDate: json['regDate'] as String,
-      birth: json['birth'] as String,
-      familyRole: json['familyRole'] as String,
-      emotion: json['emotion'] as String,
+      name: json['name'] as String?,
+      age: json['age'] as int?,
+      gender: json['gender'] as String?,
+      address: json['address'] as String?,
+      picture: json['picture'] as String?,
+      regDate: json['regDate'] as String?,
+      birth: json['birth'] as String?,
+      familyRole: json['familyRole'] as String?,
     );
 
 Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
       'id': instance.id,
       'email': instance.email,
+      'name': instance.name,
       'age': instance.age,
       'gender': instance.gender,
       'address': instance.address,
@@ -41,7 +42,6 @@ Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
       'regDate': instance.regDate,
       'birth': instance.birth,
       'familyRole': instance.familyRole,
-      'emotion': instance.emotion,
     };
 
 Family _$FamilyFromJson(Map<String, dynamic> json) => Family(
@@ -58,22 +58,24 @@ Map<String, dynamic> _$FamilyToJson(Family instance) => <String, dynamic>{
       'regDate': instance.regDate,
     };
 
-FamilyMember _$FamilyMemberFromJson(Map<String, dynamic> json) => FamilyMember(
+FamilyInfo _$FamilyInfoFromJson(Map<String, dynamic> json) => FamilyInfo(
       id: json['id'] as int,
       name: json['name'] as String,
       code: json['code'] as String,
       regDate: json['regDate'] as String,
+      point: json['point'] as int,
       users: (json['users'] as List<dynamic>)
           .map((e) => User.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 
-Map<String, dynamic> _$FamilyMemberToJson(FamilyMember instance) =>
+Map<String, dynamic> _$FamilyInfoToJson(FamilyInfo instance) =>
     <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
       'code': instance.code,
       'regDate': instance.regDate,
+      'point': instance.point,
       'users': instance.users,
     };
 
@@ -236,7 +238,7 @@ class _RestClient implements RestClient {
   }
 
   @override
-  Future<String> joinFamily({
+  Future<String?> joinFamily({
     required token,
     required jsondata,
   }) async {
@@ -257,7 +259,7 @@ class _RestClient implements RestClient {
           data: _data,
         )
         .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = _result.data!;
+    final value = _result.data;
     return value;
   }
 
@@ -289,14 +291,14 @@ class _RestClient implements RestClient {
   }
 
   @override
-  Future<FamilyMember> getMyFamily({required token}) async {
+  Future<FamilyInfo> getMyFamily({required token}) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{r'Authorization': token};
     _headers.removeWhere((k, v) => v == null);
     final Map<String, dynamic>? _data = null;
     final _result = await _dio
-        .fetch<Map<String, dynamic>>(_setStreamType<FamilyMember>(Options(
+        .fetch<Map<String, dynamic>>(_setStreamType<FamilyInfo>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
@@ -308,7 +310,7 @@ class _RestClient implements RestClient {
               data: _data,
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = FamilyMember.fromJson(_result.data!);
+    final value = FamilyInfo.fromJson(_result.data!);
     return value;
   }
 

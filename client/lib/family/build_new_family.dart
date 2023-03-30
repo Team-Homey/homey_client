@@ -22,7 +22,6 @@ class BuildNewFamilyState extends State<BuildNewFamily> {
 
   late SharedPreferences _prefs;
   final dio = Dio()..interceptors.add(CustomLogInterceptor());
-  final prefs = SharedPreferences.getInstance();
 
   bool flag = false;
   String buttonText = '';
