@@ -4,7 +4,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'app.dart';
 import 'sign_up.dart';
-import 'family/set_family.dart';
 
 import 'data/rest_client.dart';
 import 'data/custom_log_interceptor.dart';

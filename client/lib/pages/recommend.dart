@@ -48,7 +48,7 @@ class RecommendState extends State<RecommendShow> {
         child: Container(
             margin: const EdgeInsets.only(bottom: 20),
             child: Column(children: [
-              Container(
+              SizedBox(
                   width: MediaQuery.of(context).size.width * 0.8,
                   height: MediaQuery.of(context).size.width * 0.4,
                   child: Image.asset(path, fit: BoxFit.cover)),
@@ -75,8 +75,8 @@ class RecommendState extends State<RecommendShow> {
                                     alignment: Alignment.center,
                                     margin: const EdgeInsets.only(right: 10),
                                     decoration: BoxDecoration(
-                                        color:
-                                            Color.fromARGB(255, 245, 245, 245),
+                                        color: const Color.fromARGB(
+                                            255, 245, 245, 245),
                                         // border: Border.all(
                                         //     color: Colors.grey, width: 0),
                                         borderRadius:

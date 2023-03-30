@@ -1,5 +1,5 @@
 import 'dart:collection';
-
+import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -7,10 +7,10 @@ class TodayShow extends StatefulWidget {
   const TodayShow({Key? key}) : super(key: key);
 
   @override
-  _todayShowState createState() => _todayShowState();
+  TodayShowState createState() => TodayShowState();
 }
 
-class _todayShowState extends State<TodayShow> {
+class TodayShowState extends State<TodayShow> {
   List<String> emotions = [
     '🥰',
     '😊',
@@ -80,12 +80,36 @@ class _todayShowState extends State<TodayShow> {
         body: Stack(children: [
       Column(children: [
         TableCalendar<Event>(
+          rowHeight: 55,
           firstDay: kFirstDay,
           lastDay: kLastDay,
           focusedDay: _focusedDay,
           calendarFormat: _calendarFormat,
           eventLoader: _getEventsForDay,
-          startingDayOfWeek: StartingDayOfWeek.monday,
+          startingDayOfWeek: StartingDayOfWeek.sunday,
+          calendarBuilders: CalendarBuilders(
+            dowBuilder: (context, day) {
+              if (day.weekday == DateTime.sunday) {
+                final text = DateFormat.E().format(day);
+                return Center(
+                  child: Text(
+                    text,
+                    style: TextStyle(color: Colors.red),
+                  ),
+                );
+              }
+              // Use default style for other days
+              if (day.weekday == DateTime.saturday) {
+                final text = DateFormat.E().format(day);
+                return Center(
+                  child: Text(
+                    text,
+                    style: TextStyle(color: Colors.blue),
+                  ),
+                );
+              }
+            },
+          ),
           selectedDayPredicate: (day) {
             // Use values from Set to mark multiple days as selected
             return _selectedDays.contains(day);
@@ -102,20 +126,117 @@ class _todayShowState extends State<TodayShow> {
             _focusedDay = focusedDay;
           },
         ),
-        ElevatedButton(
-          child: Text('Clear selection'),
-          onPressed: () {
-            setState(() {
-              _selectedDays.clear();
-              _selectedEvents.value = [];
-            });
-          },
+        const SizedBox(height: 8.0),
+        Container(
+          alignment: Alignment.centerRight,
+          width: MediaQuery.of(context).size.width * 0.9,
+          child: ElevatedButton(
+            child: const Text('Clear selection',
+                style: TextStyle(color: Colors.white)),
+            onPressed: () {
+              setState(() {
+                _selectedDays.clear();
+                _selectedEvents.value = [];
+              });
+            },
+            style: ElevatedButton.styleFrom(
+                backgroundColor: const Color.fromARGB(255, 215, 215, 215)),
+          ),
         ),
         const SizedBox(height: 8.0),
         Expanded(
           child: ValueListenableBuilder<List<Event>>(
               valueListenable: _selectedEvents,
               builder: (context, value, _) {
+                // if value.isEmpty show the seven feeling, else shwo the listview
+                if (value.isEmpty) {
+                  return Container(
+                      color: Colors.white,
+                      height: 110,
+                      width: MediaQuery.of(context).size.width,
+                      child: Column(children: [
+                        const SizedBox(height: 10),
+                        Container(
+                          alignment: Alignment.centerLeft,
+                          padding: const EdgeInsets.only(left: 20),
+                          child: const Text('How are you feeling today?',
+                              style: TextStyle(
+                                color: Colors.grey,
+                                fontSize: 17,
+                              )),
+                        ),
+                        const SizedBox(height: 10),
+                        SizedBox(
+                            height: 60,
+                            width: MediaQuery.of(context).size.width,
+                            child: ListView.builder(
+                                scrollDirection: Axis.horizontal,
+                                itemCount: emotions.length,
+                                itemBuilder: (context, index) => Container(
+                                    margin: const EdgeInsets.only(left: 9),
+                                    alignment: Alignment.center,
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        FloatingActionButton(
+                                            onPressed: () {},
+                                            backgroundColor: Colors.white,
+                                            mini: true,
+                                            elevation: 0,
+                                            child: Text(emotions[index],
+                                                style: const TextStyle(
+                                                  fontSize: 30,
+                                                ))),
+                                        Text(emotionsName[index],
+                                            style: const TextStyle(
+                                                fontSize: 11,
+                                                color: Colors.grey))
+                                      ],
+                                    )))),
+                        const SizedBox(height: 20),
+                        Container(
+                          alignment: Alignment.centerLeft,
+                          padding: const EdgeInsets.only(left: 20),
+                          child: const Text("Question",
+                              style: TextStyle(
+                                color: Colors.grey,
+                                fontSize: 17,
+                              )),
+                        ),
+                        const SizedBox(height: 15),
+                        Container(
+                          width: MediaQuery.of(context).size.width * 0.9,
+                          height: MediaQuery.of(context).size.height * 0.1,
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              color: Colors.grey,
+                            ),
+                            borderRadius: BorderRadius.circular(12.0),
+                          ),
+                          child: const Text(
+                              "Do you know about your family's hobbies?",
+                              style: TextStyle(
+                                  color: Color.fromARGB(255, 62, 62, 62),
+                                  fontSize: 20,
+                                  fontFamily: "Roboto")),
+                        ),
+                        const SizedBox(height: 20),
+                        Container(
+                          alignment: Alignment.centerLeft,
+                          padding: const EdgeInsets.only(left: 20),
+                          child: const Text("Answer",
+                              style: TextStyle(
+                                color: Colors.grey,
+                                fontSize: 17,
+                              )),
+                        ),
+                        //const SizedBox(height: 15),
+                      ]));
+                }
                 return ListView.builder(
                   itemCount: value.length,
                   itemBuilder: (context, index) {
@@ -137,55 +258,6 @@ class _todayShowState extends State<TodayShow> {
                 );
               }),
         ),
-
-        //selet the selected date's feeling
-        // Positioned(
-        //     bottom: 0,
-        //     right: 0,
-        //     child: Container(
-        //         color: Colors.white,
-        //         height: 110,
-        //         width: MediaQuery.of(context).size.width,
-        //         child: Column(children: [
-        //           const SizedBox(height: 10),
-        //           Container(
-        //             alignment: Alignment.centerLeft,
-        //             padding: const EdgeInsets.only(left: 20),
-        //             child: const Text('How are you feeling today?',
-        //                 style: TextStyle(
-        //                   color: Colors.grey,
-        //                   fontSize: 15,
-        //                 )),
-        //           ),
-        //           const SizedBox(height: 10),
-        //           Container(
-        //               height: 60,
-        //               width: MediaQuery.of(context).size.width,
-        //               child: ListView.builder(
-        //                   scrollDirection: Axis.horizontal,
-        //                   itemCount: emotions.length,
-        //                   itemBuilder: (context, index) => Container(
-        //                       margin: const EdgeInsets.only(left: 22),
-        //                       alignment: Alignment.center,
-        //                       child: Column(
-        //                         mainAxisAlignment: MainAxisAlignment.center,
-        //                         crossAxisAlignment: CrossAxisAlignment.center,
-        //                         children: [
-        //                           FloatingActionButton(
-        //                               onPressed: () {},
-        //                               backgroundColor: Colors.white,
-        //                               mini: true,
-        //                               elevation: 0,
-        //                               child: Text(emotions[index],
-        //                                   style: const TextStyle(
-        //                                     fontSize: 30,
-        //                                   ))),
-        //                           Text(emotionsName[index],
-        //                               style: const TextStyle(
-        //                                   fontSize: 10, color: Colors.grey))
-        //                         ],
-        //                       )))),
-        //         ]))),
       ])
     ]));
   }
@@ -214,8 +286,8 @@ final _kEventSource = Map.fromIterable(List.generate(50, (index) => index),
         item % 4 + 1, (index) => Event('Event $item | ${index + 1}')))
   ..addAll({
     kToday: [
-      Event('Today\'s Event 1'),
-      Event('Today\'s Event 2'),
+      const Event('Today\'s Event 1'),
+      const Event('Today\'s Event 2'),
     ],
   });
 

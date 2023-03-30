@@ -34,7 +34,7 @@ class ProfileState extends State<ProfileShow> {
 
   @override
   Widget build(BuildContext context) {
-    final restClient = RestClient(dio);
+    // final restClient = RestClient(dio);
     // return Scaffold(
     //   body: Center(
     //       child: FutureBuilder<User?>(
@@ -98,7 +98,7 @@ class ProfileState extends State<ProfileShow> {
               const SizedBox(
                 height: 20,
               ),
-              Container(
+              SizedBox(
                   width: MediaQuery.of(context).size.width * 0.8,
                   child: Container(
                       decoration: BoxDecoration(
@@ -106,64 +106,64 @@ class ProfileState extends State<ProfileShow> {
                           borderRadius: BorderRadius.circular(20),
                           border: Border.all(color: Colors.amber, width: 2)),
                       child: Container(
-                          margin: EdgeInsets.all(20),
+                          margin: const EdgeInsets.all(20),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              textContainer('Name', 'John Doe').showText(),
-                              Container(
+                              TextContainer('Name', 'John Doe').showText(),
+                              SizedBox(
                                   width:
                                       MediaQuery.of(context).size.width * 0.8,
                                   child: const Divider(
                                       color: Color.fromARGB(255, 60, 60, 60),
                                       thickness: 0.6)),
                               const SizedBox(height: 10),
-                              textContainer('Contact', '123456789').showText(),
-                              Container(
+                              TextContainer('Contact', '123456789').showText(),
+                              SizedBox(
                                   width:
                                       MediaQuery.of(context).size.width * 0.8,
                                   child: const Divider(
                                       color: Color.fromARGB(255, 60, 60, 60),
                                       thickness: 0.6)),
                               const SizedBox(height: 10),
-                              textContainer('Email', 'xxx.com').showText(),
-                              Container(
+                              TextContainer('Email', 'xxx.com').showText(),
+                              SizedBox(
                                   width:
                                       MediaQuery.of(context).size.width * 0.8,
                                   child: const Divider(
                                       color: Color.fromARGB(255, 60, 60, 60),
                                       thickness: 0.6)),
                               const SizedBox(height: 10),
-                              textContainer('birthday', '1111.11.11')
+                              TextContainer('birthday', '1111.11.11')
                                   .showText(),
-                              Container(
+                              SizedBox(
                                   width:
                                       MediaQuery.of(context).size.width * 0.8,
                                   child: const Divider(
                                       color: Color.fromARGB(255, 60, 60, 60),
                                       thickness: 0.6)),
                               const SizedBox(height: 10),
-                              textContainer('birthday', '1111.11.11')
+                              TextContainer('birthday', '1111.11.11')
                                   .showText(),
-                              Container(
+                              SizedBox(
                                   width:
                                       MediaQuery.of(context).size.width * 0.8,
                                   child: const Divider(
                                       color: Color.fromARGB(255, 60, 60, 60),
                                       thickness: 0.6)),
                               const SizedBox(height: 10),
-                              textContainer('birthday', '1111.11.11')
+                              TextContainer('birthday', '1111.11.11')
                                   .showText(),
-                              Container(
+                              SizedBox(
                                   width:
                                       MediaQuery.of(context).size.width * 0.8,
                                   child: const Divider(
                                       color: Color.fromARGB(255, 60, 60, 60),
                                       thickness: 0.6)),
                               const SizedBox(height: 10),
-                              textContainer('birthday', '1111.11.11')
+                              TextContainer('birthday', '1111.11.11')
                                   .showText(),
-                              Container(
+                              SizedBox(
                                   width:
                                       MediaQuery.of(context).size.width * 0.8,
                                   child: const Divider(
@@ -176,10 +176,10 @@ class ProfileState extends State<ProfileShow> {
   }
 }
 
-class textContainer {
+class TextContainer {
   String title;
   String content;
-  textContainer(this.title, this.content);
+  TextContainer(this.title, this.content);
 
   showText() {
     return Column(

@@ -1,13 +1,9 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:circular_profile_avatar/circular_profile_avatar.dart';
 import 'package:flutter_gif/flutter_gif.dart';
 
 import '../data/custom_log_interceptor.dart';
-import '../data/rest_client.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -18,9 +14,6 @@ class HomeScreen extends StatefulWidget {
 
 class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   late AnimationController _positionController;
-  late Animation<Offset> _animation;
-  late var _accessToken = '';
-  late SharedPreferences _prefs;
   late FlutterGifController _gifController;
 
   final dio = Dio()..interceptors.add(CustomLogInterceptor());
@@ -28,14 +21,14 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   double _yOffset = 100.0;
   double _targetXOffset = 300.0;
   double _targetYOffset = 300.0;
-  double _ringSize = 0.0;
-  bool _showRing = false;
+  final double _ringSize = 0.0;
+  final bool _showRing = false;
 
   @override
   void initState() {
     super.initState();
-    _positionController =
-        AnimationController(vsync: this, duration: Duration(seconds: 200));
+    _positionController = AnimationController(
+        vsync: this, duration: const Duration(seconds: 200));
     _positionController.repeat();
     _positionController.addListener(() {
       setState(() {
@@ -78,7 +71,7 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    List<String> family_member = ["Yurim", "Yohwan", "Taejin", "Seoyeon"];
+    List<String> familyMember = ["Yurim", "Yohwan", "Taejin", "Seoyeon"];
     int me = 0;
 
     return Scaffold(
@@ -110,7 +103,7 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Container(
+                    SizedBox(
                         height: MediaQuery.of(context).size.height * 0.68,
                         width: MediaQuery.of(context).size.width,
                         child: Stack(children: [
@@ -148,12 +141,12 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                             ),
                           ),
                         ])),
-                    Container(
+                    SizedBox(
                       height: MediaQuery.of(context).size.height * 0.15,
                       width: MediaQuery.of(context).size.width * 0.8,
                       child: ListView.builder(
                         scrollDirection: Axis.horizontal,
-                        itemCount: family_member.length,
+                        itemCount: familyMember.length,
                         itemBuilder: (context, index) {
                           return Container(
                             width: MediaQuery.of(context).size.width * 0.2,
@@ -192,7 +185,7 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                     ),
                                   ),
                                 ]),
-                                Text(family_member[index]),
+                                Text(familyMember[index]),
                               ],
                             ),
                           );
@@ -223,7 +216,7 @@ class TouchPositionPainter extends CustomPainter {
       canvas.drawCircle(
         position,
         ringSize / 2,
-        Paint()..color = Color.fromARGB(255, 0, 0, 0).withOpacity(0.5),
+        Paint()..color = const Color.fromARGB(255, 0, 0, 0).withOpacity(0.5),
       );
     }
   }
