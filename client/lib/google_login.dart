@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:social_login_buttons/social_login_buttons.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 // import 'package:google_sign_in/google_sign_in.dart';
 
 import 'login.dart';
@@ -15,10 +14,12 @@ class GoogleLogin extends StatelessWidget {
         body: Center(
             child:
                 Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-          SvgPicture.asset('assets/images/Logo_White.svg',
-              semanticsLabel: 'Loding screen',
-              width: MediaQuery.of(context).size.width * 0.7,
-              fit: BoxFit.fill),
+          // png image
+          Image(
+            image: const AssetImage('assets/images/Logo_White.png'),
+            width: MediaQuery.of(context).size.width * 0.7,
+          ),
+
           const SizedBox(height: 50),
           SocialLoginButton(
               buttonType: SocialLoginButtonType.google,
@@ -32,7 +33,7 @@ class GoogleLogin extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                       builder: (context) =>
-                          HomeyLogin(email: 'test6', name: 'test6')),
+                          HomeyLogin(email: 'test15', name: 'test15')),
                 );
               })
         ])));

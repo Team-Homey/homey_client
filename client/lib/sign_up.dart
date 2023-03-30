@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -65,10 +64,10 @@ class _SignUpState extends State<SignUp> {
               child: Column(children: [
                 // Contact, Birthday, Sex, Role in your family, Address
                 const SizedBox(height: 50),
-                SvgPicture.asset('assets/images/Logo_White.svg',
-                    semanticsLabel: 'Loding screen',
-                    width: MediaQuery.of(context).size.width * 0.6,
-                    fit: BoxFit.fill),
+                Image(
+                  image: const AssetImage('assets/images/Logo_White.png'),
+                  width: MediaQuery.of(context).size.width * 0.6,
+                ),
                 const SizedBox(height: 30),
                 renderTextFormField(
                   label: 'Contact',
@@ -233,7 +232,7 @@ class _SignUpState extends State<SignUp> {
                             token: 'Bearer $_accessToken', jsondata: jsondata);
                       } else {}
 
-                      Navigator.of(context).pop();
+                      //Navigator.of(context).pop();
                       Navigator.push(
                         context,
                         MaterialPageRoute(

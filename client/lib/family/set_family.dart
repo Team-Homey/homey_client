@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 import 'build_new_family.dart';
 import 'join_family.dart';
@@ -35,10 +34,10 @@ class SetFamilyState extends State<SetFamily> {
             child: Column(
               children: [
                 const SizedBox(height: 70),
-                SvgPicture.asset('assets/images/Logo_White.svg',
-                    semanticsLabel: 'Loding screen',
-                    width: MediaQuery.of(context).size.width * 0.6,
-                    fit: BoxFit.fill),
+                Image(
+                  image: const AssetImage('assets/images/Logo_White.png'),
+                  width: MediaQuery.of(context).size.width * 0.6,
+                ),
                 const SizedBox(height: 50),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,

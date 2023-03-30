@@ -15,7 +15,6 @@ class JoinFamily extends StatefulWidget {
 
 class JoinFamilyState extends State<JoinFamily> {
   String _accessToken = '';
-  String _refreshToken = '';
   String familyCode = '';
   Map<String, dynamic> jsontoken = {};
   Map<String, dynamic> jsondata = {};
@@ -37,14 +36,13 @@ class JoinFamilyState extends State<JoinFamily> {
     _prefs = await SharedPreferences.getInstance();
     setState(() {
       _accessToken = _prefs.getString('accessToken') ?? '';
-      _refreshToken = _prefs.getString('refreshToken') ?? '';
     });
   }
 
   @override
   Widget build(BuildContext context) {
     final restClient = RestClient(dio);
-    final _formKey = GlobalKey<FormState>();
+    final formKey = GlobalKey<FormState>();
 
     return MaterialApp(
         title: 'Join Family',
@@ -68,7 +66,7 @@ class JoinFamilyState extends State<JoinFamily> {
                   children: <Widget>[
                     // fmaily name input
                     Form(
-                        key: _formKey,
+                        key: formKey,
                         child: SizedBox(
                           width: MediaQuery.of(context).size.width * 0.8,
                           child: TextFormField(
@@ -112,8 +110,8 @@ class JoinFamilyState extends State<JoinFamily> {
                     const SizedBox(height: 20),
                     ElevatedButton(
                         onPressed: () async {
-                          if (_formKey.currentState!.validate()) {
-                            _formKey.currentState!.save();
+                          if (formKey.currentState!.validate()) {
+                            formKey.currentState!.save();
                             jsondata = {
                               'hashCode': familyCode,
                             };

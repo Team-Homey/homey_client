@@ -42,7 +42,6 @@ dependencies:
     dropdown_button2: ^2.0.0
     google_sign_in: ^6.0.2
     social_login_buttons: ^1.0.7
-    flutter_svg: ^2.0.2
     http: ^0.13.5
     dio: ^5.0.3
     custom_navigation_bar: ^0.8.2
@@ -53,6 +52,8 @@ dependencies:
     flutter_gif: ^0.0.4
     table_calendar: ^3.0.9
     slowly_moving_widgets_field: ^1.0.28
+    url_launcher: ^6.1.10
+    image_picker: ^0.8.7+1
 
 dev_dependencies:
     flutter_test:
@@ -91,6 +92,7 @@ flutter:
         - assets/images/
         - assets/fonts/
         - assets/images/sampleImage/png/
+        - assets/images/sampleImage/place/
 
     # An image asset can refer to one or more resolution-specific "variants", see
     # https://flutter.dev/assets-and-images/#resolution-aware
