@@ -108,6 +108,13 @@ class TodayShowState extends State<TodayShow> {
                   ),
                 );
               }
+              final text = DateFormat.E().format(day);
+              return Center(
+                child: Text(
+                  text,
+                  style: TextStyle(color: Color.fromARGB(255, 53, 53, 53)),
+                ),
+              );
             },
           ),
           selectedDayPredicate: (day) {

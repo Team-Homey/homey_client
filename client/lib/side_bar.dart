@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 
 import 'google_login.dart';
+import 'test/test.dart';
 
 class CustomButtonTest extends StatefulWidget {
   const CustomButtonTest({Key? key}) : super(key: key);
@@ -90,7 +91,7 @@ class MenuItems {
     level,
     video,
     todo,
-    contact,
+    test,
     settings
   ];
   static const List<MenuItem> secondItems = [logout];
@@ -102,7 +103,7 @@ class MenuItems {
   static const level = MenuItem(text: 'Level', icon: Icons.trending_up);
   static const video = MenuItem(text: 'Video', icon: Icons.video_collection);
   static const todo = MenuItem(text: 'To Do', icon: Icons.checklist);
-  static const contact = MenuItem(text: 'Contact', icon: Icons.contact_page);
+  static const test = MenuItem(text: 'Test', icon: Icons.quiz);
   static const settings = MenuItem(text: 'Settings', icon: Icons.settings);
   static const logout = MenuItem(text: 'Log Out', icon: Icons.logout);
 
@@ -167,10 +168,10 @@ class MenuItems {
           MaterialPageRoute(builder: (context) => GoogleLogin()),
         );
         break;
-      case MenuItems.contact:
+      case MenuItems.test:
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => GoogleLogin()),
+          MaterialPageRoute(builder: (context) => TestShow()),
         );
         break;
       case MenuItems.settings:
