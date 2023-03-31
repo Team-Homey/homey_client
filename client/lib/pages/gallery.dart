@@ -12,9 +12,14 @@ class GalleryShowState extends State<GalleryShow> {
   List<String> images = [
     'assets/images/sampleImage/png/image1.png',
     'assets/images/sampleImage/png/image2.png',
-    'assets/images/sampleImage/png/image6.png',
     'assets/images/sampleImage/png/image3.png',
     'assets/images/sampleImage/png/image4.png',
+    'assets/images/sampleImage/png/image5.png',
+    'assets/images/sampleImage/png/image6.png',
+    'assets/images/sampleImage/png/image7.png',
+    'assets/images/sampleImage/png/image8.png',
+    'assets/images/sampleImage/png/image9.png',
+    'assets/images/sampleImage/png/image10.png',
   ];
 
   @override
@@ -51,7 +56,7 @@ class GalleryShowState extends State<GalleryShow> {
                   await picker.pickImage(source: ImageSource.gallery);
               if (pickimage != null) {
                 setState(() {
-                  images.add('assets/images/sampleImage/png/image5.png');
+                  images.add('assets/images/sampleImage/png/image11.png');
                 });
               }
             },

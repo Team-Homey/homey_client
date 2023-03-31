@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:circular_profile_avatar/circular_profile_avatar.dart';
 import 'package:flutter_gif/flutter_gif.dart';
+import 'package:syncfusion_flutter_gauges/gauges.dart';
 
 import '../data/custom_log_interceptor.dart';
 
@@ -14,15 +15,16 @@ class HomeScreen extends StatefulWidget {
 
 class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   late AnimationController _positionController;
+  late AnimationController _shadowpositionController;
   late FlutterGifController _gifController;
 
   final dio = Dio()..interceptors.add(CustomLogInterceptor());
   double _xOffset = 200.0;
   double _yOffset = 100.0;
+  double _xShOffset = 200.0;
+  double _yShOffset = 200.0;
   double _targetXOffset = 300.0;
   double _targetYOffset = 300.0;
-  final double _ringSize = 0.0;
-  final bool _showRing = false;
 
   @override
   void initState() {
@@ -39,6 +41,21 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             _yOffset * (1 - animationValue);
       });
     });
+
+    _shadowpositionController = AnimationController(
+        vsync: this, duration: const Duration(seconds: 200));
+    _shadowpositionController.repeat();
+    _shadowpositionController.addListener(() {
+      setState(() {
+        double animationValue = _shadowpositionController.value;
+        _xShOffset = _targetXOffset * 0.8 * animationValue +
+            _xShOffset * (1 - animationValue);
+        _yShOffset = 180 +
+            _targetYOffset * animationValue +
+            _yShOffset * (1 - animationValue) * 0.5;
+      });
+    });
+
     _gifController =
         FlutterGifController(vsync: this, duration: const Duration(seconds: 1));
     _gifController.repeat(min: 0, max: 2, period: const Duration(seconds: 1));
@@ -47,31 +64,26 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   @override
   void dispose() {
     _positionController.dispose();
+    _shadowpositionController.dispose();
     _gifController.dispose();
     super.dispose();
   }
 
-  // _loadToken() async {
-  //   final restClient = RestClient(dio);
-  //   _prefs = await SharedPreferences.getInstance();
-  //   setState(() {
-  //     _accessToken = _prefs.getString('accessToken') ?? '';
-  //   });
-  //   FutureBuilder<String?>(
-  //     future: restClient.getMyFamilyString(token: 'Bearer $_accessToken'),
-  //     builder: (context, snapshot) {
-  //       if (snapshot.hasData) {
-  //         String? fmaily = snapshot.data;
-  //         return Text('$fmaily');
-  //       }
-  //       return const Text('Family error1');
-  //     },
-  //   );
-  // }
-
   @override
   Widget build(BuildContext context) {
     List<String> familyMember = ["Yurim", "Yohwan", "Taejin", "Seoyeon"];
+    List<String> familyProfile = [
+      'assets/images/yurim.png',
+      'assets/images/yohwan.png',
+      'assets/images/taejin.png',
+      'assets/images/seoyeon.png'
+    ];
+    List<IconData> familyFeeling = [
+      Icons.sentiment_very_satisfied,
+      Icons.sentiment_dissatisfied,
+      Icons.sentiment_very_satisfied,
+      Icons.sentiment_neutral,
+    ];
     int me = 0;
 
     return Scaffold(
@@ -81,14 +93,8 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 _targetXOffset = details.localPosition.dx;
                 _targetYOffset = details.localPosition.dy;
               });
-              // when onTap, touch color change
             },
             child: CustomPaint(
-              painter: TouchPositionPainter(
-                position: Offset(_xOffset, _yOffset),
-                showRing: _showRing,
-                ringSize: _ringSize,
-              ),
               child: Container(
                 decoration: const BoxDecoration(
                     gradient: LinearGradient(
@@ -122,6 +128,44 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                 height:
                                     MediaQuery.of(context).size.height * 0.3,
                               ),
+                              SizedBox(
+                                  height: MediaQuery.of(context).size.height *
+                                      0.11),
+                              Image(
+                                image: const AssetImage(
+                                    'assets/images/combShadow.png'),
+                                width: MediaQuery.of(context).size.width * 0.7,
+                              ),
+                              SizedBox(
+                                  height: MediaQuery.of(context).size.height *
+                                      0.02),
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width * 0.7,
+                                child: SfLinearGauge(
+                                  ranges: const [
+                                    LinearGaugeRange(
+                                      startValue: 0,
+                                      endValue: 100,
+                                      color: Color(0xFFE3FFFA),
+                                    ),
+                                  ],
+                                  markerPointers: const [
+                                    LinearShapePointer(
+                                      value: 60,
+                                      color: Colors.amber,
+                                      // circle
+                                      shapeType: LinearShapePointerType.circle,
+                                      position: LinearElementPosition.cross,
+                                    ),
+                                  ],
+                                  barPointers: const [
+                                    LinearBarPointer(
+                                      value: 60,
+                                      color: Colors.amber,
+                                    ),
+                                  ],
+                                ),
+                              )
                             ],
                           )),
                           Positioned(
@@ -140,18 +184,35 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                               },
                             ),
                           ),
+                          Positioned(
+                            left: _xShOffset,
+                            top: _yShOffset,
+                            child: AnimatedBuilder(
+                              animation: _shadowpositionController,
+                              builder: (context, child) {
+                                return const Image(
+                                  image:
+                                      AssetImage('assets/images/beeShadow.png'),
+                                  width: 200,
+                                  height: 200,
+                                );
+                              },
+                            ),
+                          ),
                         ])),
-                    SizedBox(
+                    Container(
                       height: MediaQuery.of(context).size.height * 0.15,
-                      width: MediaQuery.of(context).size.width * 0.8,
+                      width: MediaQuery.of(context).size.width * 0.9,
+                      alignment: Alignment.center,
                       child: ListView.builder(
                         scrollDirection: Axis.horizontal,
                         itemCount: familyMember.length,
                         itemBuilder: (context, index) {
                           return Container(
-                            width: MediaQuery.of(context).size.width * 0.2,
-                            alignment: Alignment.center,
+                            width: MediaQuery.of(context).size.width * 0.225,
                             child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 Stack(children: [
                                   CircularProfileAvatar(
@@ -162,25 +223,28 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                     borderWidth: 3,
                                     elevation: 5,
                                     radius: 38,
-                                    child: const Image(
-                                      image: AssetImage(
-                                          'assets/images/unknown.png'),
+                                    child: Image(
+                                      image: AssetImage(familyProfile[index]),
                                     ),
                                   ),
                                   Positioned(
                                     bottom: 0,
                                     right: 0,
                                     child: Container(
-                                      height: 20,
-                                      width: 20,
-                                      decoration: const BoxDecoration(
-                                        color: Colors.amber,
+                                      height: 24,
+                                      width: 24,
+                                      decoration: BoxDecoration(
+                                        color: index == me
+                                            ? const Color(0xFFFFC107)
+                                            : Colors.grey,
                                         shape: BoxShape.circle,
                                       ),
-                                      child: const Icon(
-                                        Icons.check,
-                                        color: Colors.white,
-                                        size: 15,
+                                      child: Icon(
+                                        familyFeeling[index],
+                                        color: index == me
+                                            ? Colors.white
+                                            : Colors.white,
+                                        size: 18,
                                       ),
                                     ),
                                   ),

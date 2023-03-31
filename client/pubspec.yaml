@@ -55,6 +55,7 @@ dependencies:
     url_launcher: ^6.1.10
     image_picker: ^0.8.7+1
     syncfusion_flutter_charts: ^21.1.37
+    syncfusion_flutter_gauges: ^21.1.37
 
 dev_dependencies:
     flutter_test:

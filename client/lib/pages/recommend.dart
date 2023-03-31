@@ -64,7 +64,7 @@ class RecommendState extends State<RecommendShow> {
                       // show tags with horizontal scroll
                       Container(
                           margin: const EdgeInsets.only(left: 10),
-                          width: MediaQuery.of(context).size.width * 0.5,
+                          width: MediaQuery.of(context).size.width * 0.3,
                           height: 25,
                           alignment: Alignment.center,
                           child: ListView.builder(
@@ -124,7 +124,7 @@ class RecommendState extends State<RecommendShow> {
                             children: [
                               showImage(
                                   'image1.png',
-                                  'place1',
+                                  'Caribbean Bay',
                                   'https://www.google.com/maps/place/%EC%BA%90%EB%A6%AC%EB%B9%84%EC%95%88%EB%B2%A0%EC%9D%B4/data=!3m1!4b1!4m6!3m5!1s0x357b56ae20ac23b3:0x41aa5b7a8a28b20c!8m2!3d37.2971295!4d127.2008973!16s%2Fm%2F05p2_yy',
                                   [
                                     "pool",
@@ -132,32 +132,30 @@ class RecommendState extends State<RecommendShow> {
                                     "ocean",
                                     "waterpark",
                                   ]),
-                              showImage('image2.png', 'place2',
+                              showImage('image2.png', 'Jungmun Beach',
                                   'https://www.google.com/', [
-                                "water",
-                                "ocean",
                                 "sea",
                               ]),
                               showImage(
                                   'image3.png',
-                                  'place3',
+                                  'Banpo Hangang Park',
                                   'https://www.google.com/',
                                   ["river", "colors"]),
-                              showImage('image4.png', 'place4',
-                                  'https://www.google.com/', [
-                                "park",
-                                "river",
-                                "seoul",
-                              ]),
-                              showImage('image5.png', 'place5',
+                              showImage(
+                                  'image4.png',
+                                  'Yeouido Hangang Park',
+                                  'https://www.google.com/search?q=korea%20han%20river%20park&hl=en&sxsrf=APwXEddXizhFuj3YTZVTRZ_EPjpnYs4qWg:1680218705962&ei=KhomZLzGOtbe-Qam653QDg&ved=2ahUKEwipoPS45oT-AhWZ1GEKHVO4ACYQvS56BAgrEAE&uact=5&oq=korea+han+river+park&gs_lcp=Cgxnd3Mtd2l6LXNlcnAQAzIFCAAQgAQyBggAEBYQHjICCCYyAggmMgIIJjICCCYyAggmMggIABCKBRCGAzIICAAQigUQhgMyCAgAEIoFEIYDOgoIABBHENYEELADOgoIABCKBRCwAxBDOg0IABDkAhDWBBCwAxgBOhIILhCKBRDUAhDIAxCwAxBDGAJKBAhBGABQ8yBY5SRgrCVoA3ABeACAAXeIAdEDkgEDMC40mAEAoAEByAEOwAEB2gEGCAEQARgJ2gEGCAIQARgI&sclient=gws-wiz-serp&tbs=lrf:!1m4!1u3!2m2!3m1!1e1!1m4!1u2!2m2!2m1!1e1!2m1!1e2!2m1!1e3!3sIAE,lf:1,lf_ui:1&tbm=lcl&rflfq=1&num=10&rldimm=11878392033566344492&lqi=ChRrb3JlYSBoYW4gcml2ZXIgcGFya0ibltaliICAgAhaIBABEAIQAxgBGAMiFGtvcmVhIGhhbiByaXZlciBwYXJrkgEEcGFya5oBI0NoWkRTVWhOTUc5blMwVkpRMEZuU1VOUE5HRklPRmRSRUFFqgE3EAEqEiIOaGFuIHJpdmVyIHBhcmsoADIfEAEiG6Zoxx5gQJCRZYmCfp5p-9MA1uESoXOWbtXSQA&phdesc=FcaQFXP3ii4&sa=X&rlst=f#rlfi=hd:;si:11878392033566344492,l,ChRrb3JlYSBoYW4gcml2ZXIgcGFya0ibltaliICAgAhaIBABEAIQAxgBGAMiFGtvcmVhIGhhbiByaXZlciBwYXJrkgEEcGFya5oBI0NoWkRTVWhOTUc5blMwVkpRMEZuU1VOUE5HRklPRmRSRUFFqgE3EAEqEiIOaGFuIHJpdmVyIHBhcmsoADIfEAEiG6Zoxx5gQJCRZYmCfp5p-9MA1uESoXOWbtXSQA,y,FcaQFXP3ii4;mv:[[37.5399775,127.0977911],[37.5086733,126.89119749999999]];tbs:lrf:!1m4!1u3!2m2!3m1!1e1!1m4!1u2!2m2!2m1!1e1!2m1!1e2!2m1!1e3!3sIAE,lf:1,lf_ui:1',
+                                  [
+                                    "park",
+                                    "river",
+                                    "seoul",
+                                  ]),
+                              showImage('image5.png', 'Daecheon Beach ',
                                   'https://www.google.com/', [
                                 "beach",
                               ]),
-                              showImage(
-                                  'image6.png',
-                                  'place6',
-                                  'https://www.google.com/',
-                                  ["playground", "water"]),
+                              showImage('image6.png', 'Ocean World',
+                                  'https://www.google.com/', ["playground"]),
                             ],
                           ))))
             ]))));

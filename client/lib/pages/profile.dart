@@ -91,7 +91,7 @@ class ProfileState extends State<ProfileShow> {
                   elevation: 5,
                   radius: 50,
                   child: const Image(
-                    image: AssetImage('assets/images/unknown.png'),
+                    image: AssetImage('assets/images/yurim.png'),
                   ),
                 ),
               ),
@@ -110,7 +110,7 @@ class ProfileState extends State<ProfileShow> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              TextContainer('Name', 'John Doe').showText(),
+                              TextContainer('Name', 'Yurim Lee').showText(),
                               SizedBox(
                                   width:
                                       MediaQuery.of(context).size.width * 0.8,
@@ -118,23 +118,7 @@ class ProfileState extends State<ProfileShow> {
                                       color: Color.fromARGB(255, 60, 60, 60),
                                       thickness: 0.6)),
                               const SizedBox(height: 10),
-                              TextContainer('Contact', '123456789').showText(),
-                              SizedBox(
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.8,
-                                  child: const Divider(
-                                      color: Color.fromARGB(255, 60, 60, 60),
-                                      thickness: 0.6)),
-                              const SizedBox(height: 10),
-                              TextContainer('Email', 'xxx.com').showText(),
-                              SizedBox(
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.8,
-                                  child: const Divider(
-                                      color: Color.fromARGB(255, 60, 60, 60),
-                                      thickness: 0.6)),
-                              const SizedBox(height: 10),
-                              TextContainer('birthday', '1111.11.11')
+                              TextContainer('Contact', '123-456-7890')
                                   .showText(),
                               SizedBox(
                                   width:
@@ -143,7 +127,7 @@ class ProfileState extends State<ProfileShow> {
                                       color: Color.fromARGB(255, 60, 60, 60),
                                       thickness: 0.6)),
                               const SizedBox(height: 10),
-                              TextContainer('birthday', '1111.11.11')
+                              TextContainer('Email', 'homey@gmail.com')
                                   .showText(),
                               SizedBox(
                                   width:
@@ -152,7 +136,7 @@ class ProfileState extends State<ProfileShow> {
                                       color: Color.fromARGB(255, 60, 60, 60),
                                       thickness: 0.6)),
                               const SizedBox(height: 10),
-                              TextContainer('birthday', '1111.11.11')
+                              TextContainer('Birthday', '2002.09.30')
                                   .showText(),
                               SizedBox(
                                   width:
@@ -161,7 +145,24 @@ class ProfileState extends State<ProfileShow> {
                                       color: Color.fromARGB(255, 60, 60, 60),
                                       thickness: 0.6)),
                               const SizedBox(height: 10),
-                              TextContainer('birthday', '1111.11.11')
+                              TextContainer('Sex', 'female').showText(),
+                              SizedBox(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.8,
+                                  child: const Divider(
+                                      color: Color.fromARGB(255, 60, 60, 60),
+                                      thickness: 0.6)),
+                              const SizedBox(height: 10),
+                              TextContainer('Role', 'daughter').showText(),
+                              SizedBox(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.8,
+                                  child: const Divider(
+                                      color: Color.fromARGB(255, 60, 60, 60),
+                                      thickness: 0.6)),
+                              const SizedBox(height: 10),
+                              TextContainer('Address',
+                                      '145, Anam-ro, Seongbuk-gu, Seoul, Republic of Korea')
                                   .showText(),
                               SizedBox(
                                   width:
