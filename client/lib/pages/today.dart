@@ -76,6 +76,7 @@ class TodayShowState extends State<TodayShow> {
 
   @override
   Widget build(BuildContext context) {
+    String _text = '';
     return Scaffold(
         body: Stack(children: [
       Column(children: [
@@ -112,7 +113,8 @@ class TodayShowState extends State<TodayShow> {
               return Center(
                 child: Text(
                   text,
-                  style: TextStyle(color: Color.fromARGB(255, 53, 53, 53)),
+                  style:
+                      const TextStyle(color: Color.fromARGB(255, 53, 53, 53)),
                 ),
               );
             },
@@ -138,8 +140,6 @@ class TodayShowState extends State<TodayShow> {
           alignment: Alignment.centerRight,
           width: MediaQuery.of(context).size.width * 0.9,
           child: ElevatedButton(
-            child: const Text('Clear selection',
-                style: TextStyle(color: Colors.white)),
             onPressed: () {
               setState(() {
                 _selectedDays.clear();
@@ -148,6 +148,8 @@ class TodayShowState extends State<TodayShow> {
             },
             style: ElevatedButton.styleFrom(
                 backgroundColor: const Color.fromARGB(255, 215, 215, 215)),
+            child: const Text('Clear selection',
+                style: TextStyle(color: Colors.white)),
           ),
         ),
         const SizedBox(height: 8.0),
@@ -161,88 +163,139 @@ class TodayShowState extends State<TodayShow> {
                       color: Colors.white,
                       height: 110,
                       width: MediaQuery.of(context).size.width,
-                      child: Column(children: [
-                        const SizedBox(height: 10),
-                        Container(
-                          alignment: Alignment.centerLeft,
-                          padding: const EdgeInsets.only(left: 20),
-                          child: const Text('How are you feeling today?',
-                              style: TextStyle(
-                                color: Colors.grey,
-                                fontSize: 17,
-                              )),
-                        ),
-                        const SizedBox(height: 10),
-                        SizedBox(
-                            height: 60,
-                            width: MediaQuery.of(context).size.width,
-                            child: ListView.builder(
-                                scrollDirection: Axis.horizontal,
-                                itemCount: emotions.length,
-                                itemBuilder: (context, index) => Container(
-                                    margin: const EdgeInsets.only(left: 9),
-                                    alignment: Alignment.center,
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        FloatingActionButton(
-                                            onPressed: () {},
-                                            backgroundColor: Colors.white,
-                                            mini: true,
-                                            elevation: 0,
-                                            child: Text(emotions[index],
-                                                style: const TextStyle(
-                                                  fontSize: 30,
-                                                ))),
-                                        Text(emotionsName[index],
-                                            style: const TextStyle(
-                                                fontSize: 11,
-                                                color: Colors.grey))
-                                      ],
-                                    )))),
-                        const SizedBox(height: 20),
-                        Container(
-                          alignment: Alignment.centerLeft,
-                          padding: const EdgeInsets.only(left: 20),
-                          child: const Text("Question",
-                              style: TextStyle(
-                                color: Colors.grey,
-                                fontSize: 17,
-                              )),
-                        ),
-                        const SizedBox(height: 15),
-                        Container(
-                          width: MediaQuery.of(context).size.width * 0.9,
-                          height: MediaQuery.of(context).size.height * 0.1,
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              color: Colors.grey,
-                            ),
-                            borderRadius: BorderRadius.circular(12.0),
-                          ),
-                          child: const Text(
-                              "Do you know about your family's hobbies?",
-                              style: TextStyle(
-                                  color: Color.fromARGB(255, 62, 62, 62),
-                                  fontSize: 20,
-                                  fontFamily: "Roboto")),
-                        ),
-                        const SizedBox(height: 20),
-                        Container(
-                          alignment: Alignment.centerLeft,
-                          padding: const EdgeInsets.only(left: 20),
-                          child: const Text("Answer",
-                              style: TextStyle(
-                                color: Colors.grey,
-                                fontSize: 17,
-                              )),
-                        ),
-                        //const SizedBox(height: 15),
-                      ]));
+                      child: Expanded(
+                          child: SingleChildScrollView(
+                              scrollDirection: Axis.vertical,
+                              child: Column(children: [
+                                const SizedBox(height: 10),
+                                Container(
+                                  alignment: Alignment.centerLeft,
+                                  padding: const EdgeInsets.only(left: 20),
+                                  child:
+                                      const Text('How are you feeling today?',
+                                          style: TextStyle(
+                                            color: Colors.grey,
+                                            fontSize: 17,
+                                          )),
+                                ),
+                                const SizedBox(height: 10),
+                                SizedBox(
+                                    height: 60,
+                                    width: MediaQuery.of(context).size.width,
+                                    child: ListView.builder(
+                                        scrollDirection: Axis.horizontal,
+                                        itemCount: emotions.length,
+                                        itemBuilder: (context, index) =>
+                                            Container(
+                                                margin: const EdgeInsets.only(
+                                                    left: 9),
+                                                alignment: Alignment.center,
+                                                child: Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  children: [
+                                                    FloatingActionButton(
+                                                        onPressed: () {},
+                                                        backgroundColor:
+                                                            Colors.white,
+                                                        mini: true,
+                                                        elevation: 0,
+                                                        child: Text(
+                                                            emotions[index],
+                                                            style:
+                                                                const TextStyle(
+                                                              fontSize: 30,
+                                                            ))),
+                                                    Text(emotionsName[index],
+                                                        style: const TextStyle(
+                                                            fontSize: 11,
+                                                            color: Colors.grey))
+                                                  ],
+                                                )))),
+                                const SizedBox(height: 20),
+                                Container(
+                                  alignment: Alignment.centerLeft,
+                                  padding: const EdgeInsets.only(left: 20),
+                                  child: const Text("Question",
+                                      style: TextStyle(
+                                        color: Colors.grey,
+                                        fontSize: 17,
+                                      )),
+                                ),
+                                const SizedBox(height: 15),
+                                Container(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.9,
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.1,
+                                  alignment: Alignment.center,
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                      color: Colors.grey,
+                                    ),
+                                    borderRadius: BorderRadius.circular(12.0),
+                                  ),
+                                  child: const Text(
+                                      "Do you know about your family's hobbies?",
+                                      style: TextStyle(
+                                          color:
+                                              Color.fromARGB(255, 62, 62, 62),
+                                          fontSize: 20,
+                                          fontFamily: "Roboto")),
+                                ),
+                                const SizedBox(height: 20),
+                                Container(
+                                  alignment: Alignment.centerLeft,
+                                  padding: const EdgeInsets.only(left: 20),
+                                  child: const Text("Answer",
+                                      style: TextStyle(
+                                        color: Colors.grey,
+                                        fontSize: 17,
+                                      )),
+                                ),
+                                // save user's input answer texts using Textformfield
+                                SizedBox(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.9,
+                                  child: TextField(
+                                    decoration: const InputDecoration(
+                                      hintText: 'Enter your answer here',
+                                    ),
+                                    onChanged: (text) {
+                                      setState(() {
+                                        _text = text;
+                                      });
+                                    },
+                                  ),
+                                ),
+
+                                const SizedBox(height: 20),
+                                // complete button
+                                ElevatedButton(
+                                  style: ButtonStyle(
+                                      backgroundColor:
+                                          MaterialStateProperty.all<Color>(
+                                              Colors.amber),
+                                      minimumSize:
+                                          MaterialStateProperty.all<Size>(Size(
+                                              MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.9,
+                                              40))),
+                                  onPressed: () {
+                                    // add _test to the eventList
+                                  },
+                                  child: const Text(
+                                    'Save Text',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                )
+                              ]))));
                 }
                 return ListView.builder(
                   itemCount: value.length,
@@ -289,12 +342,15 @@ final kEvents = LinkedHashMap<DateTime, List<Event>>(
 
 final _kEventSource = Map.fromIterable(List.generate(50, (index) => index),
     key: (item) => DateTime.utc(kFirstDay.year, kFirstDay.month, item * 5),
-    value: (item) => List.generate(
-        item % 4 + 1, (index) => Event('Event $item | ${index + 1}')))
+    value: (item) => List.generate(item % 4 + 1,
+        (index) => Event("Taejin's answer : I want' to go a trip!!")))
   ..addAll({
     kToday: [
-      const Event('Today\'s Event 1'),
-      const Event('Today\'s Event 2'),
+      const Event(
+          "Yuhwan's answer : Yurim loves to play the piano. Isn't that cool?"),
+      const Event(
+          "Seoyeon's answer : Taejin enjoys playing the basketball. I think he's good at it."),
+      const Event("My answer : No... I want to know! "),
     ],
   });
 

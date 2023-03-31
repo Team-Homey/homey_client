@@ -34,49 +34,6 @@ class ProfileState extends State<ProfileShow> {
 
   @override
   Widget build(BuildContext context) {
-    // final restClient = RestClient(dio);
-    // return Scaffold(
-    //   body: Center(
-    //       child: FutureBuilder<User?>(
-    //     future: restClient.getMyInfo(token: 'Bearer $_accessToken'),
-    //     builder: (context, snapshot) {
-    //       if (snapshot.hasData) {
-    //         user = snapshot.data;
-    //         return Column(
-    //           children: [
-    //             // user profile image
-    //             Container(
-    //               child: CircularProfileAvatar(
-    //                 '',
-    //                 borderColor: const Color(0xFFFFC107),
-    //                 borderWidth: 3,
-    //                 elevation: 5,
-    //                 radius: 38,
-    //                 child: const Image(
-    //                   image: AssetImage('assets/images/unknown.png'),
-    //                 ),
-    //               ),
-    //             ),
-    //             // user name
-    //             Container(
-    //               child: Text(
-    //                 user!.name ?? "No name",
-    //               ),
-    //             ),
-    //             // user email
-    //             Container(
-    //               child: Text(user!.email),
-    //             ),
-    //             // user family
-    //           ],
-    //         );
-    //       }
-    //       return Container(
-    //         child: Text('profile error'),
-    //       );
-    //     },
-    //   )),
-    // );
     return Scaffold(
         body: SingleChildScrollView(
             scrollDirection: Axis.vertical,

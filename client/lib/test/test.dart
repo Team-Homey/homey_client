@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'test_result.dart';
-import 'testing.dart';
+import 'test_info.dart';
 
 class TestShow extends StatefulWidget {
   const TestShow({Key? key}) : super(key: key);
@@ -118,7 +118,7 @@ class TestState extends State<TestShow> {
               child: FloatingActionButton(
                 onPressed: () async {
                   Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => Testing()));
+                      MaterialPageRoute(builder: (context) => TestInfo()));
                 },
                 child: const Icon(Icons.add,
                     color: Color.fromARGB(255, 255, 255, 255), size: 40),

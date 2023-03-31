@@ -64,7 +64,6 @@ class JoinFamilyState extends State<JoinFamily> {
               child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    // fmaily name input
                     Form(
                         key: formKey,
                         child: SizedBox(
@@ -72,7 +71,7 @@ class JoinFamilyState extends State<JoinFamily> {
                           child: TextFormField(
                             decoration: const InputDecoration(
                               border: OutlineInputBorder(),
-                              labelText: 'Family Code',
+                              labelText: 'enter family code',
                             ),
                             onSaved: (value) {
                               familyCode =
@@ -119,7 +118,7 @@ class JoinFamilyState extends State<JoinFamily> {
                             await restClient.joinFamily(
                                 token: 'Bearer $_accessToken',
                                 jsondata: jsondata);
-                            // pop up dialog
+
                             setState(() {
                               flag = true;
                             });

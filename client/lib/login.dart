@@ -25,12 +25,12 @@ class HomeyLogin extends StatelessWidget {
   }
 
   Widget paging(bool valid) {
-    if (valid) {
-      return const Homey();
-    } else {
-      return const SignUp();
-      //return const SetFamily();
-    }
+    // if (valid) {
+    return const Homey();
+    // } else {
+    //return const SignUp();
+    //return const SetFamily();
+    // }
   }
 
   @override

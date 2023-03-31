@@ -36,13 +36,18 @@ class SetFamilyState extends State<SetFamily> {
                 const SizedBox(height: 70),
                 Image(
                   image: const AssetImage('assets/images/Logo_White.png'),
-                  width: MediaQuery.of(context).size.width * 0.6,
+                  width: MediaQuery.of(context).size.width * 0.7,
                 ),
                 const SizedBox(height: 50),
-                Row(
+                Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     ElevatedButton(
+                      style: ButtonStyle(
+                          backgroundColor:
+                              MaterialStateProperty.all<Color>(Colors.amber),
+                          minimumSize:
+                              MaterialStateProperty.all<Size>(Size(300, 50))),
                       onPressed: () {
                         Navigator.push(
                             context,
@@ -56,8 +61,14 @@ class SetFamilyState extends State<SetFamily> {
                           child: const Text('Build New Family',
                               style: TextStyle(color: Colors.white))),
                     ),
+                    SizedBox(height: 30),
                     const SizedBox(width: 30),
                     ElevatedButton(
+                      style: ButtonStyle(
+                          backgroundColor:
+                              MaterialStateProperty.all<Color>(Colors.amber),
+                          minimumSize:
+                              MaterialStateProperty.all<Size>(Size(300, 50))),
                       onPressed: () {
                         Navigator.push(
                             context,

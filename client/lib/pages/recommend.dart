@@ -14,7 +14,7 @@ class RecommendShow extends StatefulWidget {
 }
 
 class RecommendState extends State<RecommendShow> {
-  late var _accessToken = '';
+  late var accessToken;
   late SharedPreferences _prefs;
   final dio = Dio()..interceptors.add(CustomLogInterceptor());
   User? user;
@@ -28,7 +28,7 @@ class RecommendState extends State<RecommendShow> {
   _loadToken() async {
     _prefs = await SharedPreferences.getInstance();
     setState(() {
-      _accessToken = _prefs.getString('accessToken') ?? '';
+      accessToken = _prefs.getString('accessToken') ?? '';
     });
   }
 
@@ -95,7 +95,6 @@ class RecommendState extends State<RecommendShow> {
 
   @override
   Widget build(BuildContext context) {
-    final restClient = RestClient(dio);
     return Scaffold(
         body: SingleChildScrollView(
             scrollDirection: Axis.vertical,
@@ -111,7 +110,7 @@ class RecommendState extends State<RecommendShow> {
                         fontFamily: "roboto",
                       ))),
               const SizedBox(height: 10),
-              Container(
+              SizedBox(
                   width: MediaQuery.of(context).size.width * 0.9,
                   child: Container(
                       decoration: BoxDecoration(

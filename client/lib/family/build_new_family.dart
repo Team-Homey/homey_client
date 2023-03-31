@@ -151,7 +151,6 @@ class BuildNewFamilyState extends State<BuildNewFamily> {
                   TextButton(
                     child: const Text('OK'),
                     onPressed: () {
-                      // request to server user info
                       final dio = Dio()
                         ..interceptors.add(CustomLogInterceptor());
                       final restClient = RestClient(dio);

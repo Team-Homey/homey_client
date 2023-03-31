@@ -78,7 +78,7 @@ class _SignUpState extends State<SignUp> {
                   },
                   validator: (val) {
                     if (val == null || val.isEmpty) {
-                      return '연락처를 입력해주세요!';
+                      return 'Enter your contact!';
                     }
                     return null;
                   },
@@ -92,7 +92,7 @@ class _SignUpState extends State<SignUp> {
                   },
                   validator: (val) {
                     if (val == null || val.isEmpty) {
-                      return '생일을 입력해주세요!';
+                      return 'Enter your birthday!';
                     }
                     return null;
                   },
@@ -106,7 +106,7 @@ class _SignUpState extends State<SignUp> {
                   },
                   validator: (val) {
                     if (val == null || val.isEmpty) {
-                      return '성별을 입력해주세요!';
+                      return 'Enter your sex!';
                     }
                     return null;
                   },
@@ -120,7 +120,7 @@ class _SignUpState extends State<SignUp> {
                   },
                   validator: (val) {
                     if (val == null || val.isEmpty) {
-                      return '가족 내에서의 역할을 입력해주세요!';
+                      return 'Enter your role in your family!';
                     }
                     return null;
                   },
@@ -134,7 +134,7 @@ class _SignUpState extends State<SignUp> {
                   },
                   validator: (val) {
                     if (val == null || val.isEmpty) {
-                      return '주소를 입력해주세요!';
+                      return 'Enter your address!';
                     }
                     return null;
                   },
@@ -188,70 +188,69 @@ class _SignUpState extends State<SignUp> {
 
   renderButton() {
     return ElevatedButton(
-      style: ElevatedButton.styleFrom(
-        foregroundColor: Colors.amber,
-        disabledForegroundColor: const Color.fromARGB(255, 24, 24, 24),
-      ),
-      onPressed: () {
-        if (formKey.currentState == null) {
-          print("formKey.currentState is null");
-        } else if (formKey.currentState!.validate()) {
-          formKey.currentState!.save();
-
-          showDialog<void>(
-            context: context,
-            builder: (BuildContext context) {
-              return AlertDialog(
-                title: const Text('Sign Up'),
-                content: const SingleChildScrollView(
-                  child: ListBody(
-                    children: <Widget>[
-                      Text('Sign Up Success!'),
-                    ],
-                  ),
-                ),
-                actions: <Widget>[
-                  TextButton(
-                    child: const Text('OK'),
-                    onPressed: () {
-                      // request to server user info
-                      final dio = Dio()
-                        ..interceptors.add(CustomLogInterceptor());
-                      final restClient = RestClient(dio);
-                      var jsondata = {
-                        'age': 20,
-                        'gender': sex,
-                        'address': address,
-                        'picture': 'https://i.imgur.com/BoN9kdC.png',
-                        'birth': birthday,
-                        'familyRole': role,
-                      };
-
-                      if (_accessToken != '') {
-                        restClient.updateMyInfo(
-                            token: 'Bearer $_accessToken', jsondata: jsondata);
-                      } else {}
-
-                      //Navigator.of(context).pop();
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const SetFamily()),
-                      );
-                    },
-                  ),
-                ],
-              );
-            },
-          );
-        }
-      },
-      child: const Text(
-        'Save',
-        style: TextStyle(
-          color: Colors.white,
+        style: ElevatedButton.styleFrom(
+          foregroundColor: Colors.amber,
+          disabledForegroundColor: const Color.fromARGB(255, 24, 24, 24),
         ),
-      ),
-    );
+        onPressed: () {
+          if (formKey.currentState == null) {
+            print("formKey.currentState is null");
+          } else if (formKey.currentState!.validate()) {
+            formKey.currentState!.save();
+
+            showDialog<void>(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: const Text('Sign Up'),
+                  content: const SingleChildScrollView(
+                    child: ListBody(
+                      children: <Widget>[
+                        Text('Sign Up Success!'),
+                      ],
+                    ),
+                  ),
+                  actions: <Widget>[
+                    TextButton(
+                      child: const Text('OK'),
+                      onPressed: () {
+                        final dio = Dio()
+                          ..interceptors.add(CustomLogInterceptor());
+                        final restClient = RestClient(dio);
+                        var jsondata = {
+                          'age': 20,
+                          'gender': sex,
+                          'address': address,
+                          'picture': 'https://i.imgur.com/BoN9kdC.png',
+                          'birth': birthday,
+                          'familyRole': role,
+                        };
+
+                        if (_accessToken != '') {
+                          restClient.updateMyInfo(
+                              token: 'Bearer $_accessToken',
+                              jsondata: jsondata);
+                        } else {}
+
+                        Navigator.of(context).pop();
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const SetFamily()),
+                        );
+                      },
+                    ),
+                  ],
+                );
+              },
+            );
+          }
+        },
+        child: const Text(
+          'Save',
+          style: TextStyle(
+            color: Colors.white,
+          ),
+        ));
   }
 }
