@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 
-import 'login.dart';
+import 'google_login.dart';
+import 'test/test.dart';
 
 class CustomButtonTest extends StatefulWidget {
   const CustomButtonTest({Key? key}) : super(key: key);
@@ -16,53 +17,53 @@ class _CustomButtonTestState extends State<CustomButtonTest> {
     return Scaffold(
       body: Center(
         child: DropdownButtonHideUnderline(
-          child: Container(
-            decoration: const BoxDecoration(
-              color: Colors.amber,
-            ),
-            child: DropdownButton2(
-              customButton: const Icon(
-                Icons.list,
+          child: DropdownButton2(
+            customButton: Container(
+              height: 60,
+              width: 60,
+              decoration: const BoxDecoration(
+                color: Colors.amber,
+              ),
+              child: const Icon(
+                Icons.menu,
                 color: Colors.white,
-                size: 46,
               ),
-              items: [
-                ...MenuItems.firstItems.map(
-                  (item) => DropdownMenuItem<MenuItem>(
-                    value: item,
-                    child: MenuItems.buildItem(item),
-                  ),
+            ),
+            items: [
+              ...MenuItems.firstItems.map(
+                (item) => DropdownMenuItem<MenuItem>(
+                  value: item,
+                  child: MenuItems.buildItem(item),
                 ),
-                const DropdownMenuItem<Divider>(
-                    enabled: false, child: Divider()),
-                ...MenuItems.secondItems.map(
-                  (item) => DropdownMenuItem<MenuItem>(
-                    value: item,
-                    child: MenuItems.buildItem(item),
-                  ),
+              ),
+              const DropdownMenuItem<Divider>(enabled: false, child: Divider()),
+              ...MenuItems.secondItems.map(
+                (item) => DropdownMenuItem<MenuItem>(
+                  value: item,
+                  child: MenuItems.buildItem(item),
                 ),
+              ),
+            ],
+            onChanged: (value) {
+              MenuItems.onChanged(context, value as MenuItem);
+            },
+            dropdownStyleData: DropdownStyleData(
+              width: 160,
+              padding: const EdgeInsets.symmetric(vertical: 6),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(4),
+                color: Colors.white,
+              ),
+              elevation: 8,
+              offset: const Offset(0, 8),
+            ),
+            menuItemStyleData: MenuItemStyleData(
+              customHeights: [
+                ...List<double>.filled(MenuItems.firstItems.length, 48),
+                8,
+                ...List<double>.filled(MenuItems.secondItems.length, 48),
               ],
-              onChanged: (value) {
-                MenuItems.onChanged(context, value as MenuItem);
-              },
-              dropdownStyleData: DropdownStyleData(
-                width: 160,
-                padding: const EdgeInsets.symmetric(vertical: 6),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(4),
-                  color: Colors.white,
-                ),
-                elevation: 8,
-                offset: const Offset(0, 8),
-              ),
-              menuItemStyleData: MenuItemStyleData(
-                customHeights: [
-                  ...List<double>.filled(MenuItems.firstItems.length, 48),
-                  8,
-                  ...List<double>.filled(MenuItems.secondItems.length, 48),
-                ],
-                padding: const EdgeInsets.only(left: 16, right: 16),
-              ),
+              padding: const EdgeInsets.only(left: 16, right: 16),
             ),
           ),
         ),
@@ -82,11 +83,27 @@ class MenuItem {
 }
 
 class MenuItems {
-  static const List<MenuItem> firstItems = [home, share, settings];
+  static const List<MenuItem> firstItems = [
+    profile,
+    gallery,
+    recommendation,
+    records,
+    level,
+    video,
+    todo,
+    test,
+    settings
+  ];
   static const List<MenuItem> secondItems = [logout];
 
-  static const home = MenuItem(text: 'Home', icon: Icons.home);
-  static const share = MenuItem(text: 'Share', icon: Icons.share);
+  static const profile = MenuItem(text: 'My Profile', icon: Icons.person);
+  static const gallery = MenuItem(text: 'Gallery', icon: Icons.photo);
+  static const recommendation = MenuItem(text: 'Recommend', icon: Icons.star);
+  static const records = MenuItem(text: 'Records', icon: Icons.edit_note);
+  static const level = MenuItem(text: 'Level', icon: Icons.trending_up);
+  static const video = MenuItem(text: 'Video', icon: Icons.video_collection);
+  static const todo = MenuItem(text: 'To Do', icon: Icons.checklist);
+  static const test = MenuItem(text: 'Test', icon: Icons.quiz);
   static const settings = MenuItem(text: 'Settings', icon: Icons.settings);
   static const logout = MenuItem(text: 'Log Out', icon: Icons.logout);
 
@@ -109,19 +126,64 @@ class MenuItems {
 
   static onChanged(BuildContext context, MenuItem item) {
     switch (item) {
-      case MenuItems.home:
-        //Do something
+      case MenuItems.profile:
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => GoogleLogin()),
+        );
+        break;
+      case MenuItems.gallery:
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => GoogleLogin()),
+        );
+        break;
+      case MenuItems.recommendation:
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => GoogleLogin()),
+        );
+        break;
+      case MenuItems.records:
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => GoogleLogin()),
+        );
+        break;
+      case MenuItems.level:
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => GoogleLogin()),
+        );
+        break;
+      case MenuItems.video:
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => GoogleLogin()),
+        );
+        break;
+      case MenuItems.todo:
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => GoogleLogin()),
+        );
+        break;
+      case MenuItems.test:
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => TestShow()),
+        );
         break;
       case MenuItems.settings:
-        //Do something
-        break;
-      case MenuItems.share:
-        //Do something
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => GoogleLogin()),
+        );
         break;
       case MenuItems.logout:
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => const HomeyLogin()),
+          MaterialPageRoute(builder: (context) => GoogleLogin()),
         );
         break;
     }

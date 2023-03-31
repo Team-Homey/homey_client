@@ -5,17 +5,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 
-import 'login.dart';
+import 'google_login.dart';
 
 void main() {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
-  // if login is successful, runApp(Homey())
   runApp(
-    const MaterialApp(
-      title: 'Homey',
-      home: HomeyLogin(),
-    ),
+    MaterialApp(title: 'Homey', home: GoogleLogin()),
+    //MaterialApp(title: 'Homey', home: Homey()),
+    //if already has token, runApp(Homey())
   );
   FlutterNativeSplash.remove();
 }

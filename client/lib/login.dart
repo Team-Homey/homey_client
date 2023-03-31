@@ -1,54 +1,68 @@
 import 'package:flutter/material.dart';
-import 'package:social_login_buttons/social_login_buttons.dart';
-import 'package:google_sign_in/google_sign_in.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:dio/dio.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-import 'home.dart';
+import 'app.dart';
+import 'sign_up.dart';
 
-// home_login()
+import 'data/rest_client.dart';
+import 'data/custom_log_interceptor.dart';
+
+bool valid = false;
+
 class HomeyLogin extends StatelessWidget {
-  const HomeyLogin({Key? key}) : super(key: key);
+  HomeyLogin({Key? key, required this.email, required this.name})
+      : super(key: key);
+  final String email;
+  final String name;
+  final dio = Dio()..interceptors.add(CustomLogInterceptor());
+  final prefs = SharedPreferences.getInstance();
+
+  void setString(String accessToken, String refreshToken) async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setString('accessToken', accessToken);
+    prefs.setString('refreshToken', refreshToken);
+  }
+
+  Widget paging(bool valid) {
+    // if (valid) {
+    return const Homey();
+    // } else {
+    //return const SignUp();
+    //return const SetFamily();
+    // }
+  }
 
   @override
   Widget build(BuildContext context) {
-    //background color : white
+    final restClient = RestClient(dio);
+    //String picture = null;
+    var userdata = {
+      'email': email,
+      'name': name,
+      //'picture': picture,
+    };
     return Scaffold(
       backgroundColor: Colors.white,
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            //Image.asset('../assets/images/Logo_White.svg', fit: BoxFit.fill),
-            SvgPicture.asset('assets/images/Logo_White.svg',
-                semanticsLabel: 'Loding screen',
-                width: MediaQuery.of(context).size.width * 0.7,
-                fit: BoxFit.fill),
-            const SizedBox(height: 50),
-            SocialLoginButton(
-              buttonType: SocialLoginButtonType.google,
-              backgroundColor: Colors.blueAccent,
-              disabledBackgroundColor: Colors.blueAccent.withOpacity(1),
-              textColor: Colors.white,
-              imageURL: 'assets/images/google.png',
-              text: "Sign up with Google",
-              width: 350,
-              onPressed: () {
-                // final GoogleSignIn _googleSignIn = GoogleSignIn(
-                //   scopes: <String>[
-                //     'email',
-                //     'https://www.googleapis.com/auth/contacts.readonly',
-                //   ],
-                // );
-                //_googleSignIn.signIn();
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const Homey()),
-                );
-              },
-            ),
-          ],
-        ),
-      ),
+          child: FutureBuilder<Data?>(
+        future: restClient.authentication(jsondata: userdata),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            Data? authenticationResult = snapshot.data;
+            if (authenticationResult != null) {
+              if (authenticationResult.alreadyRegistered == true) {
+                valid = true;
+              } else {
+                valid = false;
+              }
+              setString(authenticationResult.accessToken,
+                  authenticationResult.refreshToken);
+            }
+          }
+          return paging(valid);
+        },
+      )),
     );
   }
 }
