@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:circular_profile_avatar/circular_profile_avatar.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_gif/flutter_gif.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 
 import '../data/custom_log_interceptor.dart';
+import '../data/rest_client.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -18,7 +20,6 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   late AnimationController _shadowpositionController;
   late FlutterGifController _gifController;
 
-  final dio = Dio()..interceptors.add(CustomLogInterceptor());
   double _xOffset = 200.0;
   double _yOffset = 100.0;
   double _xShOffset = 200.0;
@@ -26,9 +27,14 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   double _targetXOffset = 300.0;
   double _targetYOffset = 300.0;
 
+  String _accessToken = '';
+  FamilyInfo? family;
+
   @override
   void initState() {
     super.initState();
+    loadData();
+
     _positionController = AnimationController(
         vsync: this, duration: const Duration(seconds: 200));
     _positionController.repeat();
@@ -61,6 +67,27 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     _gifController.repeat(min: 0, max: 2, period: const Duration(seconds: 1));
   }
 
+  loadData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String accessToken = prefs.getString('accessToken')!;
+    if (accessToken != null) {
+      setState(() {
+        _accessToken = accessToken;
+      });
+      try {
+        final dio = Dio()..interceptors.add(CustomLogInterceptor());
+        final restClient = RestClient(dio);
+        FamilyInfo? family =
+            await restClient.getMyFamily(token: 'Bearer $_accessToken');
+        setState(() {
+          this.family = family;
+        });
+      } catch (error) {
+        print(error);
+      }
+    }
+  }
+
   @override
   void dispose() {
     _positionController.dispose();
@@ -69,197 +96,229 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     super.dispose();
   }
 
+  String getEmojiFromEmotionName(String? emotionName) {
+    List<String> emotions = [
+      '🥰',
+      '😊',
+      '🙂',
+      '🤔',
+      '😕',
+      '😭',
+      '😠',
+    ];
+    List<String> emotionsText = [
+      'Lovely',
+      'Happy',
+      'Good',
+      "Don't know",
+      'So-So',
+      'Sad',
+      'Angry',
+    ];
+    if (emotionName == null) return "?";
+    int index = emotionsText.indexOf(emotionName);
+    if (index != -1) {
+      return emotions[index];
+    } else {
+      return "";
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    List<String> familyMember = ["Yurim", "Yohwan", "Taejin", "Seoyeon"];
     List<String> familyProfile = [
       'assets/images/yurim.png',
       'assets/images/yohwan.png',
       'assets/images/taejin.png',
       'assets/images/seoyeon.png'
     ];
-    List<IconData> familyFeeling = [
-      Icons.sentiment_very_satisfied,
-      Icons.sentiment_dissatisfied,
-      Icons.sentiment_very_satisfied,
-      Icons.sentiment_neutral,
-    ];
+
+    List<User> familyMember = family?.users ?? [];
+
+    // List<String> familyProfile = [];
+
     int me = 0;
 
     return Scaffold(
         body: GestureDetector(
-            onTapDown: (TapDownDetails details) {
-              setState(() {
-                _targetXOffset = details.localPosition.dx;
-                _targetYOffset = details.localPosition.dy;
-              });
-            },
-            child: CustomPaint(
-              child: Container(
-                decoration: const BoxDecoration(
-                    gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [
-                    Color(0xFFE3FFFA),
-                    Color(0xFFFFFFFF),
-                  ],
-                )),
-                child: Center(
-                    child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.68,
-                        width: MediaQuery.of(context).size.width,
-                        child: Stack(children: [
-                          Center(
-                              child: Column(
-                            children: [
-                              Image(
-                                image: const AssetImage(
-                                    'assets/images/honeyCombBar.png'),
-                                height:
-                                    MediaQuery.of(context).size.height * 0.08,
-                              ),
-                              Image(
-                                image: const AssetImage(
-                                    'assets/images/honeyComb.png'),
-                                height:
-                                    MediaQuery.of(context).size.height * 0.3,
-                              ),
-                              SizedBox(
-                                  height: MediaQuery.of(context).size.height *
-                                      0.11),
-                              Image(
-                                image: const AssetImage(
-                                    'assets/images/combShadow.png'),
-                                width: MediaQuery.of(context).size.width * 0.7,
-                              ),
-                              SizedBox(
-                                  height: MediaQuery.of(context).size.height *
-                                      0.02),
-                              SizedBox(
-                                width: MediaQuery.of(context).size.width * 0.7,
-                                child: SfLinearGauge(
-                                  ranges: const [
-                                    LinearGaugeRange(
-                                      startValue: 0,
-                                      endValue: 100,
-                                      color: Color(0xFFE3FFFA),
-                                    ),
-                                  ],
-                                  markerPointers: const [
-                                    LinearShapePointer(
-                                      value: 60,
-                                      color: Colors.amber,
-                                      // circle
-                                      shapeType: LinearShapePointerType.circle,
-                                      position: LinearElementPosition.cross,
-                                    ),
-                                  ],
-                                  barPointers: const [
-                                    LinearBarPointer(
-                                      value: 60,
-                                      color: Colors.amber,
-                                    ),
-                                  ],
-                                ),
-                              )
-                            ],
-                          )),
-                          Positioned(
-                            left: _xOffset,
-                            top: _yOffset,
-                            child: AnimatedBuilder(
-                              animation: _positionController,
-                              builder: (context, child) {
-                                return GifImage(
-                                  width: 150,
-                                  height: 150,
-                                  controller: _gifController,
-                                  image:
-                                      const AssetImage("assets/images/bee.gif"),
-                                );
-                              },
-                            ),
-                          ),
-                          Positioned(
-                            left: _xShOffset,
-                            top: _yShOffset,
-                            child: AnimatedBuilder(
-                              animation: _shadowpositionController,
-                              builder: (context, child) {
-                                return const Image(
-                                  image:
-                                      AssetImage('assets/images/beeShadow.png'),
-                                  width: 200,
-                                  height: 200,
-                                );
-                              },
-                            ),
-                          ),
-                        ])),
-                    Container(
-                      height: MediaQuery.of(context).size.height * 0.15,
-                      width: MediaQuery.of(context).size.width * 0.9,
-                      alignment: Alignment.center,
-                      child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: familyMember.length,
-                        itemBuilder: (context, index) {
-                          return Container(
-                            width: MediaQuery.of(context).size.width * 0.225,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Stack(children: [
-                                  CircularProfileAvatar(
-                                    '',
-                                    borderColor: index == me
-                                        ? const Color(0xFFFFC107)
-                                        : Colors.white,
-                                    borderWidth: 3,
-                                    elevation: 5,
-                                    radius: 38,
-                                    child: Image(
-                                      image: AssetImage(familyProfile[index]),
-                                    ),
-                                  ),
-                                  Positioned(
-                                    bottom: 0,
-                                    right: 0,
-                                    child: Container(
-                                      height: 24,
-                                      width: 24,
-                                      decoration: BoxDecoration(
-                                        color: index == me
-                                            ? const Color(0xFFFFC107)
-                                            : Colors.grey,
-                                        shape: BoxShape.circle,
-                                      ),
-                                      child: Icon(
-                                        familyFeeling[index],
-                                        color: index == me
-                                            ? Colors.white
-                                            : Colors.white,
-                                        size: 18,
-                                      ),
-                                    ),
-                                  ),
-                                ]),
-                                Text(familyMember[index]),
-                              ],
-                            ),
-                          );
-                        },
+      onTapDown: (TapDownDetails details) {
+        setState(() {
+          _targetXOffset = details.localPosition.dx;
+          _targetYOffset = details.localPosition.dy;
+        });
+      },
+      child: Container(
+        decoration: const BoxDecoration(
+            gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [
+            Color(0xFFE3FFFA),
+            Color(0xFFFFFFFF),
+          ],
+        )),
+        child: Center(
+            child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            SizedBox(
+                width: MediaQuery.of(context).size.width,
+                child: Stack(children: [
+                  Center(
+                      child: Column(
+                    children: [
+                      Image(
+                        image:
+                            const AssetImage('assets/images/honeyCombBar.png'),
+                        height: MediaQuery.of(context).size.height * 0.08,
                       ),
+                      Image(
+                        image: const AssetImage('assets/images/honeyComb.png'),
+                        height: MediaQuery.of(context).size.height * 0.3,
+                      ),
+                      SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.06),
+                      Image(
+                        image: const AssetImage('assets/images/combShadow.png'),
+                        height: MediaQuery.of(context).size.height * 0.15,
+                      ),
+                      SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.06),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.7,
+                        height: MediaQuery.of(context).size.height * 0.05,
+                        child: SfLinearGauge(
+                          ranges: const [
+                            LinearGaugeRange(
+                              startValue: 0,
+                              endValue: 100,
+                              color: Color(0xFFE3FFFA),
+                            ),
+                          ],
+                          markerPointers: [
+                            LinearShapePointer(
+                              value: family?.point.toDouble() ?? 10,
+                              color: Colors.amber,
+                              // circle
+                              shapeType: LinearShapePointerType.circle,
+                              position: LinearElementPosition.cross,
+                            ),
+                          ],
+                          barPointers: [
+                            LinearBarPointer(
+                              value: family?.point.toDouble() ?? 10,
+                              color: Colors.amber,
+                            ),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        height: MediaQuery.of(context).size.height * 0.15,
+                        width: MediaQuery.of(context).size.width *
+                            0.2 *
+                            familyMember.length,
+                        child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: familyMember.length,
+                          itemBuilder: (context, index) {
+                            return Container(
+                              width: MediaQuery.of(context).size.width * 0.2,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Stack(children: [
+                                    CircularProfileAvatar(
+                                      '',
+                                      borderColor: index == me
+                                          ? const Color(0xFFFFC107)
+                                          : Colors.white,
+                                      borderWidth: 3,
+                                      elevation: 5,
+                                      radius:
+                                          MediaQuery.of(context).size.width *
+                                              0.075,
+                                      child: Image(
+                                        image: AssetImage(familyProfile[index]),
+                                      ),
+                                    ),
+                                    Positioned(
+                                      bottom: 0,
+                                      right: 0,
+                                      child: Container(
+                                        height: 24,
+                                        width: 24,
+                                        decoration: BoxDecoration(
+                                          color: index == me
+                                              ? const Color(0xFFFFC107)
+                                              : Colors.grey,
+                                          shape: BoxShape.circle,
+                                        ),
+                                        child: Text(
+                                          getEmojiFromEmotionName(
+                                              familyMember[index].emotion),
+                                          textAlign: TextAlign.center,
+                                          style: const TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ]),
+                                  const SizedBox(
+                                    height: 5,
+                                  ),
+                                  Text(
+                                    familyMember[index].name ?? '',
+                                    style: const TextStyle(
+                                      fontSize: 15,
+                                      color: Colors.black,
+                                    ),
+                                  )
+                                ],
+                              ),
+                            );
+                          },
+                        ),
+                      )
+                    ],
+                  )),
+                  Positioned(
+                    left: _xOffset,
+                    top: _yOffset,
+                    child: AnimatedBuilder(
+                      animation: _positionController,
+                      builder: (context, child) {
+                        return GifImage(
+                          width: 150,
+                          height: 150,
+                          controller: _gifController,
+                          image: const AssetImage("assets/images/bee.gif"),
+                        );
+                      },
                     ),
-                  ],
-                )),
-              ),
-            )));
+                  ),
+                  Positioned(
+                    left: _xShOffset,
+                    top: _yShOffset,
+                    child: AnimatedBuilder(
+                      animation: _shadowpositionController,
+                      builder: (context, child) {
+                        return const Image(
+                          image: AssetImage('assets/images/beeShadow.png'),
+                          width: 200,
+                          height: 200,
+                        );
+                      },
+                    ),
+                  ),
+                ])),
+          ],
+        )),
+      ),
+    ));
   }
 }
 

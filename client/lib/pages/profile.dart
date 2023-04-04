@@ -128,6 +128,19 @@ class ProfileState extends State<ProfileShow> {
                                       color: Color.fromARGB(255, 60, 60, 60),
                                       thickness: 0.6)),
                               const SizedBox(height: 10),
+                              // user?.regDate to form date
+
+                              TextContainer('registration date',
+                                      user?.regDate?.split('T')[0])
+                                  .showText(),
+
+                              SizedBox(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.8,
+                                  child: const Divider(
+                                      color: Color.fromARGB(255, 60, 60, 60),
+                                      thickness: 0.6)),
+                              const SizedBox(height: 10),
                             ],
                           ))))
             ]))));

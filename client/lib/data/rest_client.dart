@@ -31,12 +31,16 @@ abstract class RestClient {
   @GET('/user/my-info')
   Future<User> getMyInfo({@Header('Authorization') required token});
 
-  @GET('/user/my-info')
-  Future<String> getMyInfoString({@Header('Authorization') required token});
-
   @POST('/user/family')
   Future<String?> joinFamily(
       {@Header('Authorization') required token, @Body() required jsondata});
+
+  @POST('/user/emotion')
+  Future<String> updateEmotion(
+      {@Header('Authorization') required token, @Body() required jsondata});
+
+  @GET('/user/my-emotion')
+  Future<String?> getMyEmotion({@Header('Authorization') required token});
 
   /// Family
   @POST('/family')
@@ -45,9 +49,6 @@ abstract class RestClient {
 
   @GET('/family/my-family')
   Future<FamilyInfo> getMyFamily({@Header('Authorization') required token});
-
-  @GET('/family/my-family')
-  Future<String> getMyFamilyString({@Header('Authorization') required token});
 }
 
 @JsonSerializable()
@@ -90,6 +91,7 @@ class User {
   String? regDate;
   String? birth;
   String? familyRole;
+  String? emotion;
 
   // factory with null safety
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
