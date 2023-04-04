@@ -12,8 +12,6 @@ void main() {
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   runApp(
     MaterialApp(title: 'Homey', home: GoogleLogin()),
-    //MaterialApp(title: 'Homey', home: Homey()),
-    //if already has token, runApp(Homey())
   );
   FlutterNativeSplash.remove();
 }

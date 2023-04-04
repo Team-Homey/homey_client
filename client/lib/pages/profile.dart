@@ -14,22 +14,33 @@ class ProfileShow extends StatefulWidget {
 }
 
 class ProfileState extends State<ProfileShow> {
-  late var _accessToken = '';
-  late SharedPreferences _prefs;
-  final dio = Dio()..interceptors.add(CustomLogInterceptor());
+  String _accessToken = '';
   User? user;
 
   @override
   void initState() {
     super.initState();
-    _loadToken();
+    loadData();
   }
 
-  _loadToken() async {
-    _prefs = await SharedPreferences.getInstance();
-    setState(() {
-      _accessToken = _prefs.getString('accessToken') ?? '';
-    });
+  loadData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String accessToken = prefs.getString('accessToken')!;
+    if (accessToken != null) {
+      setState(() {
+        _accessToken = accessToken;
+      });
+      try {
+        final dio = Dio()..interceptors.add(CustomLogInterceptor());
+        final restClient = RestClient(dio);
+        User? user = await restClient.getMyInfo(token: 'Bearer $_accessToken');
+        setState(() {
+          this.user = user;
+        });
+      } catch (error) {
+        print(error);
+      }
+    }
   }
 
   @override
@@ -67,7 +78,7 @@ class ProfileState extends State<ProfileShow> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              TextContainer('Name', 'Yurim Lee').showText(),
+                              TextContainer('Name', user?.name).showText(),
                               SizedBox(
                                   width:
                                       MediaQuery.of(context).size.width * 0.8,
@@ -75,7 +86,31 @@ class ProfileState extends State<ProfileShow> {
                                       color: Color.fromARGB(255, 60, 60, 60),
                                       thickness: 0.6)),
                               const SizedBox(height: 10),
-                              TextContainer('Contact', '123-456-7890')
+                              TextContainer('Email', user?.email).showText(),
+                              SizedBox(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.8,
+                                  child: const Divider(
+                                      color: Color.fromARGB(255, 60, 60, 60),
+                                      thickness: 0.6)),
+                              const SizedBox(height: 10),
+                              TextContainer('Birthday', user?.birth).showText(),
+                              SizedBox(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.8,
+                                  child: const Divider(
+                                      color: Color.fromARGB(255, 60, 60, 60),
+                                      thickness: 0.6)),
+                              const SizedBox(height: 10),
+                              TextContainer('Sex', user?.gender).showText(),
+                              SizedBox(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.8,
+                                  child: const Divider(
+                                      color: Color.fromARGB(255, 60, 60, 60),
+                                      thickness: 0.6)),
+                              const SizedBox(height: 10),
+                              TextContainer('Role', user?.familyRole)
                                   .showText(),
                               SizedBox(
                                   width:
@@ -84,42 +119,7 @@ class ProfileState extends State<ProfileShow> {
                                       color: Color.fromARGB(255, 60, 60, 60),
                                       thickness: 0.6)),
                               const SizedBox(height: 10),
-                              TextContainer('Email', 'homey@gmail.com')
-                                  .showText(),
-                              SizedBox(
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.8,
-                                  child: const Divider(
-                                      color: Color.fromARGB(255, 60, 60, 60),
-                                      thickness: 0.6)),
-                              const SizedBox(height: 10),
-                              TextContainer('Birthday', '2002.09.30')
-                                  .showText(),
-                              SizedBox(
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.8,
-                                  child: const Divider(
-                                      color: Color.fromARGB(255, 60, 60, 60),
-                                      thickness: 0.6)),
-                              const SizedBox(height: 10),
-                              TextContainer('Sex', 'female').showText(),
-                              SizedBox(
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.8,
-                                  child: const Divider(
-                                      color: Color.fromARGB(255, 60, 60, 60),
-                                      thickness: 0.6)),
-                              const SizedBox(height: 10),
-                              TextContainer('Role', 'daughter').showText(),
-                              SizedBox(
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.8,
-                                  child: const Divider(
-                                      color: Color.fromARGB(255, 60, 60, 60),
-                                      thickness: 0.6)),
-                              const SizedBox(height: 10),
-                              TextContainer('Address',
-                                      '145, Anam-ro, Seongbuk-gu, Seoul, Republic of Korea')
+                              TextContainer('Address', user?.address)
                                   .showText(),
                               SizedBox(
                                   width:
@@ -136,7 +136,7 @@ class ProfileState extends State<ProfileShow> {
 
 class TextContainer {
   String title;
-  String content;
+  String? content;
   TextContainer(this.title, this.content);
 
   showText() {
@@ -151,7 +151,7 @@ class TextContainer {
           ),
         ),
         Text(
-          content,
+          content ?? 'Unknown',
           style: const TextStyle(
             color: Color.fromARGB(255, 60, 60, 60),
             fontSize: 16,

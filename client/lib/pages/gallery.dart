@@ -50,7 +50,6 @@ class GalleryShowState extends State<GalleryShow> {
           right: 30,
           child: FloatingActionButton(
             onPressed: () async {
-              print("aa");
               final ImagePicker picker = ImagePicker();
               final XFile? pickimage =
                   await picker.pickImage(source: ImageSource.gallery);

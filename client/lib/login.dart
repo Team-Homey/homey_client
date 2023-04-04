@@ -4,6 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'app.dart';
 import 'sign_up.dart';
+import 'error.dart';
 
 import 'data/rest_client.dart';
 import 'data/custom_log_interceptor.dart';
@@ -25,22 +26,20 @@ class HomeyLogin extends StatelessWidget {
   }
 
   Widget paging(bool valid) {
-    // if (valid) {
-    return const Homey();
-    // } else {
-    //return const SignUp();
-    //return const SetFamily();
-    // }
+    if (valid) {
+      return const Homey();
+    } else {
+      return const SignUp();
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     final restClient = RestClient(dio);
-    //String picture = null;
+
     var userdata = {
       'email': email,
       'name': name,
-      //'picture': picture,
     };
     return Scaffold(
       backgroundColor: Colors.white,
@@ -58,9 +57,10 @@ class HomeyLogin extends StatelessWidget {
               }
               setString(authenticationResult.accessToken,
                   authenticationResult.refreshToken);
+              return paging(valid);
             }
           }
-          return paging(valid);
+          return const ErrorPage();
         },
       )),
     );

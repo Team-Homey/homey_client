@@ -16,14 +16,12 @@ class SignUp extends StatefulWidget {
 class _SignUpState extends State<SignUp> {
   final formKey = GlobalKey<FormState>();
 
-  String contact = '';
   String birthday = '';
   String sex = '';
   String role = '';
+  String name = '';
   String address = '';
   String _accessToken = '';
-
-  final dio = Dio()..interceptors.add(CustomLogInterceptor());
 
   @override
   void initState() {
@@ -70,21 +68,21 @@ class _SignUpState extends State<SignUp> {
                 ),
                 const SizedBox(height: 30),
                 renderTextFormField(
-                  label: 'Contact',
+                  label: 'Name',
                   onSaved: (val) {
                     setState(() {
-                      contact = val;
+                      name = val;
                     });
                   },
                   validator: (val) {
                     if (val == null || val.isEmpty) {
-                      return 'Enter your contact!';
+                      return 'Enter your name!';
                     }
                     return null;
                   },
                 ),
                 renderTextFormField(
-                  label: 'Birthday',
+                  label: 'Birthday [YYYY-MM-DD]',
                   onSaved: (val) {
                     setState(() {
                       birthday = val;
@@ -93,38 +91,81 @@ class _SignUpState extends State<SignUp> {
                   validator: (val) {
                     if (val == null || val.isEmpty) {
                       return 'Enter your birthday!';
+                    } else if (DateTime.tryParse(val) == null) {
+                      return 'Invalid birthday!';
                     }
                     return null;
                   },
                 ),
-                renderTextFormField(
-                  label: 'Sex',
-                  onSaved: (val) {
-                    setState(() {
-                      sex = val;
-                    });
-                  },
-                  validator: (val) {
-                    if (val == null || val.isEmpty) {
-                      return 'Enter your sex!';
-                    }
-                    return null;
-                  },
-                ),
-                renderTextFormField(
-                  label: 'Role in your family',
-                  onSaved: (val) {
-                    setState(() {
-                      role = val;
-                    });
-                  },
-                  validator: (val) {
-                    if (val == null || val.isEmpty) {
-                      return 'Enter your role in your family!';
-                    }
-                    return null;
-                  },
-                ),
+                renderButtonFormField(
+                    label: 'Sex',
+                    onChanged: (val) {
+                      if (val != null) {
+                        setState(() {
+                          sex = val;
+                        });
+                      } else {
+                        setState(() {
+                          val = val;
+                        });
+                      }
+                    },
+                    items: [null, 'Male', 'Female']
+                        .map<DropdownMenuItem<String?>>((String? i) {
+                      return DropdownMenuItem<String?>(
+                          value: i,
+                          child: Text({'Male': 'Male', 'Female': 'Female'}[i] ??
+                              'Unknown'));
+                    }).toList(),
+                    validator: (val) {
+                      if (val == null) {
+                        return 'Enter your sex!';
+                      }
+                      return null;
+                    }),
+                renderButtonFormField(
+                    label: 'Role in your family',
+                    onChanged: (val) {
+                      if (val != null) {
+                        setState(() {
+                          role = val;
+                        });
+                      } else {
+                        setState(() {
+                          role = val;
+                        });
+                      }
+                    },
+                    items: [
+                      null,
+                      'FAMILY_ROLE_FATHER',
+                      'FAMILY_ROLE_MOTHER',
+                      'FAMILY_ROLE_PARENT',
+                      'FAMILY_ROLE_SON',
+                      'FAMILY_ROLE_DAUGHTER',
+                      'FAMILY_ROLE_CHILD',
+                      'FAMILY_ROLE_GRANDPARENT'
+                    ].map<DropdownMenuItem<String?>>((String? i) {
+                      return DropdownMenuItem<String?>(
+                          value: i,
+                          child: Text({
+                                'FAMILY_ROLE_FATHER': 'Father',
+                                'FAMILY_ROLE_MOTHER': 'Mother',
+                                'FAMILY_ROLE_PARENT': 'Parent',
+                                'FAMILY_ROLE_SON': 'Son',
+                                'FAMILY_ROLE_DAUGHTER': 'Daughter',
+                                'FAMILY_ROLE_CHILD': 'Child',
+                                'FAMILY_ROLE_GRANDPARENT': 'Grand Parent',
+                              }[i] ??
+                              'Unknown'));
+                    }).toList(),
+                    validator: (val) {
+                      if (val == null) {
+                        return 'Enter your sex!';
+                      }
+                      return null;
+                    }),
+
                 renderTextFormField(
                   label: 'Address',
                   onSaved: (val) {
@@ -186,6 +227,40 @@ class _SignUpState extends State<SignUp> {
         ));
   }
 
+  renderButtonFormField({
+    required String label,
+    required List<DropdownMenuItem> items,
+    required FormFieldSetter onChanged,
+    required FormFieldValidator validator,
+  }) {
+    return Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 70.0, vertical: 0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Text(
+                  label,
+                  style: const TextStyle(
+                      fontFamily: 'roboto',
+                      fontSize: 12.0,
+                      color: Colors.amber),
+                ),
+              ],
+            ),
+            DropdownButtonFormField(
+              items: items,
+              onChanged: onChanged,
+              validator: validator,
+            ),
+            Container(
+              height: 50,
+            ),
+          ],
+        ));
+  }
+
   renderButton() {
     return ElevatedButton(
         style: ElevatedButton.styleFrom(
@@ -220,8 +295,8 @@ class _SignUpState extends State<SignUp> {
                         var jsondata = {
                           'age': 20,
                           'gender': sex,
+                          'name': name,
                           'address': address,
-                          'picture': 'https://i.imgur.com/BoN9kdC.png',
                           'birth': birthday,
                           'familyRole': role,
                         };

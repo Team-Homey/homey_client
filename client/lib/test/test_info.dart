@@ -57,7 +57,7 @@ class TestInfoState extends State<TestInfo> {
                     fontSize: 18, fontFamily: "roboto", color: Colors.grey),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             ElevatedButton(

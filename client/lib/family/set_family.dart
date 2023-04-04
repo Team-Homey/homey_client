@@ -46,8 +46,8 @@ class SetFamilyState extends State<SetFamily> {
                       style: ButtonStyle(
                           backgroundColor:
                               MaterialStateProperty.all<Color>(Colors.amber),
-                          minimumSize:
-                              MaterialStateProperty.all<Size>(Size(300, 50))),
+                          minimumSize: MaterialStateProperty.all<Size>(
+                              const Size(300, 50))),
                       onPressed: () {
                         Navigator.push(
                             context,
@@ -61,14 +61,14 @@ class SetFamilyState extends State<SetFamily> {
                           child: const Text('Build New Family',
                               style: TextStyle(color: Colors.white))),
                     ),
-                    SizedBox(height: 30),
+                    const SizedBox(height: 30),
                     const SizedBox(width: 30),
                     ElevatedButton(
                       style: ButtonStyle(
                           backgroundColor:
                               MaterialStateProperty.all<Color>(Colors.amber),
-                          minimumSize:
-                              MaterialStateProperty.all<Size>(Size(300, 50))),
+                          minimumSize: MaterialStateProperty.all<Size>(
+                              const Size(300, 50))),
                       onPressed: () {
                         Navigator.push(
                             context,
