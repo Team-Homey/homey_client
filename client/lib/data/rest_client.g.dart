@@ -315,25 +315,100 @@ class _RestClient implements RestClient {
   }
 
   @override
+<<<<<<< Updated upstream
   Future<String> getMyFamilyString({required token}) async {
+=======
+  Future<List<Photo>> getFamilyPhoto({required token}) async {
+>>>>>>> Stashed changes
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{r'Authorization': token};
     _headers.removeWhere((k, v) => v == null);
     final Map<String, dynamic>? _data = null;
+<<<<<<< Updated upstream
     final _result = await _dio.fetch<String>(_setStreamType<String>(Options(
+=======
+    final _result =
+        await _dio.fetch<List<dynamic>>(_setStreamType<List<Photo>>(Options(
+>>>>>>> Stashed changes
       method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+<<<<<<< Updated upstream
+        .compose(
+          _dio.options,
+          '/family/my-family',
+=======
+            .compose(
+              _dio.options,
+              '/photo/family',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    var value = _result.data!
+        .map((dynamic i) => Photo.fromJson(i as Map<String, dynamic>))
+        .toList();
+    return value;
+  }
+
+  @override
+  Future<Photo> uploadPhotoTitle({
+    required token,
+    required jsondata,
+  }) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{r'Authorization': token};
+    _headers.removeWhere((k, v) => v == null);
+    final _data = jsondata;
+    final _result =
+        await _dio.fetch<Map<String, dynamic>>(_setStreamType<Photo>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/photo/content',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = Photo.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<String?> uploadPhoto({
+    required token,
+    required id,
+    required jsondata,
+  }) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{r'Authorization': token};
+    _headers.removeWhere((k, v) => v == null);
+    final _data = jsondata;
+    final _result = await _dio.fetch<String>(_setStreamType<String>(Options(
+      method: 'POST',
       headers: _headers,
       extra: _extra,
     )
         .compose(
           _dio.options,
-          '/family/my-family',
+          '/photo/${id}',
+>>>>>>> Stashed changes
           queryParameters: queryParameters,
           data: _data,
         )
         .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+<<<<<<< Updated upstream
     final value = _result.data!;
+=======
+    final value = _result.data;
+>>>>>>> Stashed changes
     return value;
   }
 

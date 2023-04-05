@@ -46,8 +46,24 @@ abstract class RestClient {
   @GET('/family/my-family')
   Future<FamilyInfo> getMyFamily({@Header('Authorization') required token});
 
+<<<<<<< Updated upstream
   @GET('/family/my-family')
   Future<String> getMyFamilyString({@Header('Authorization') required token});
+=======
+  /// Photo
+  @GET('/photo/family')
+  Future<List<Photo>> getFamilyPhoto({@Header('Authorization') required token});
+
+  @POST('/photo/content')
+  Future<Photo> uploadPhotoTitle(
+      {@Header('Authorization') required token, @Body() required jsondata});
+
+  @POST('/photo/{id}')
+  Future<String?> uploadPhoto(
+      {@Header('Authorization') required token,
+      @Path() required int id,
+      @Body() required jsondata});
+>>>>>>> Stashed changes
 }
 
 @JsonSerializable()
@@ -135,4 +151,25 @@ class FamilyInfo {
   factory FamilyInfo.fromJson(Map<String, dynamic> json) =>
       _$FamilyInfoFromJson(json);
   Map<String, dynamic> toJson() => _$FamilyInfoToJson(this);
+}
+
+class Photo {
+  Photo({
+    required this.id,
+    required this.image,
+    required this.title,
+    required this.regDate,
+  });
+
+  int id;
+  String? image;
+  String title;
+  String regDate;
+
+  factory Photo.fromJson(Map<String, dynamic> json) => Photo(
+        id: json['id'],
+        image: json['iamge'],
+        title: json['title'],
+        regDate: json['regDate'],
+      );
 }

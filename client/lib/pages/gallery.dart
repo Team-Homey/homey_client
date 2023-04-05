@@ -1,5 +1,11 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:dio/dio.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../data/custom_log_interceptor.dart';
+import '../data/rest_client.dart';
 
 class GalleryShow extends StatefulWidget {
   const GalleryShow({Key? key}) : super(key: key);
@@ -9,6 +15,38 @@ class GalleryShow extends StatefulWidget {
 }
 
 class GalleryShowState extends State<GalleryShow> {
+  String _accessToken = '';
+  List<Photo>? photo;
+  File _image = File('');
+
+  @override
+  void initState() {
+    super.initState();
+    loadData();
+  }
+
+  loadData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String accessToken = prefs.getString('accessToken')!;
+    if (accessToken != null) {
+      setState(() {
+        _accessToken = accessToken;
+      });
+      try {
+        final dio = Dio()..interceptors.add(CustomLogInterceptor());
+        final restClient = RestClient(dio);
+        List<Photo>? photo =
+            await restClient.getFamilyPhoto(token: 'Bearer $_accessToken');
+        setState(() {
+          this.photo = photo;
+          print(photo);
+        });
+      } catch (error) {
+        print(error);
+      }
+    }
+  }
+
   List<String> images = [
     'assets/images/sampleImage/png/image1.png',
     'assets/images/sampleImage/png/image2.png',
@@ -56,8 +94,30 @@ class GalleryShowState extends State<GalleryShow> {
                   await picker.pickImage(source: ImageSource.gallery);
               if (pickimage != null) {
                 setState(() {
-                  images.add('assets/images/sampleImage/png/image11.png');
+                  _image = File(pickimage.path);
                 });
+
+                try {
+                  final dio = Dio()..interceptors.add(CustomLogInterceptor());
+                  final restClient = RestClient(dio);
+                  var jsondata1 = {
+                    'title': 'test.jpg',
+                  };
+                  var jsondata2 = FormData.fromMap({
+                    'image': await MultipartFile.fromFile(
+                      _image.path,
+                    ),
+                  });
+
+                  Photo? tmp = await restClient.uploadPhotoTitle(
+                      token: 'Bearer $_accessToken', jsondata: jsondata1);
+                  await restClient.uploadPhoto(
+                      token: 'Bearer $_accessToken',
+                      id: tmp.id,
+                      jsondata: jsondata2);
+                } on DioError catch (e) {
+                  print('Image upload failed with error ${e.message}');
+                }
               }
             },
             child: const Icon(Icons.add, color: Colors.white, size: 40),

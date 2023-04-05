@@ -88,6 +88,7 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
     return Scaffold(
         body: GestureDetector(
+<<<<<<< Updated upstream
             onTapDown: (TapDownDetails details) {
               setState(() {
                 _targetXOffset = details.localPosition.dx;
@@ -260,6 +261,183 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 )),
               ),
             )));
+=======
+      onTapDown: (TapDownDetails details) {
+        setState(() {
+          _targetXOffset = details.localPosition.dx;
+          _targetYOffset = details.localPosition.dy;
+        });
+      },
+      child: Container(
+        decoration: const BoxDecoration(
+            gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [
+            Color(0xFFE3FFFA),
+            Color(0xFFFFFFFF),
+          ],
+        )),
+        child: Center(
+            child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            SizedBox(
+                width: MediaQuery.of(context).size.width,
+                child: Stack(children: [
+                  Center(
+                      child: Column(
+                    children: [
+                      Image(
+                        image:
+                            const AssetImage('assets/images/honeyCombBar.png'),
+                        height: MediaQuery.of(context).size.height * 0.08,
+                      ),
+                      Image(
+                        image: const AssetImage('assets/images/honeycomb.png'),
+                        height: MediaQuery.of(context).size.height * 0.3,
+                      ),
+                      SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.08),
+                      Image(
+                        image: const AssetImage('assets/images/combShadow.png'),
+                        height: MediaQuery.of(context).size.height * 0.15,
+                      ),
+                      SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.02),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.7,
+                        height: MediaQuery.of(context).size.height * 0.05,
+                        child: SfLinearGauge(
+                          ranges: const [
+                            LinearGaugeRange(
+                              startValue: 0,
+                              endValue: 100,
+                              color: Color(0xFFE3FFFA),
+                            ),
+                          ],
+                          markerPointers: [
+                            LinearShapePointer(
+                              value: family?.point.toDouble() ?? 0,
+                              color: Colors.amber,
+                              // circle
+                              shapeType: LinearShapePointerType.circle,
+                              position: LinearElementPosition.cross,
+                            ),
+                          ],
+                          barPointers: [
+                            LinearBarPointer(
+                              value: family?.point.toDouble() ?? 0,
+                              color: Colors.amber,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  )),
+                  Positioned(
+                    left: _xOffset,
+                    top: _yOffset,
+                    child: AnimatedBuilder(
+                      animation: _positionController,
+                      builder: (context, child) {
+                        return GifImage(
+                          width: 150,
+                          height: 150,
+                          controller: _gifController,
+                          image: const AssetImage("assets/images/bee.gif"),
+                        );
+                      },
+                    ),
+                  ),
+                  Positioned(
+                    left: _xShOffset,
+                    top: _yShOffset,
+                    child: AnimatedBuilder(
+                      animation: _shadowpositionController,
+                      builder: (context, child) {
+                        return const Image(
+                          image: AssetImage('assets/images/beeShadow.png'),
+                          width: 200,
+                          height: 200,
+                        );
+                      },
+                    ),
+                  ),
+                ])),
+            Container(
+              height: MediaQuery.of(context).size.height * 0.14,
+              width:
+                  MediaQuery.of(context).size.width * 0.2 * familyMember.length,
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: familyMember.length,
+                itemBuilder: (context, index) {
+                  return Container(
+                    width: MediaQuery.of(context).size.width * 0.2,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Stack(children: [
+                          CircularProfileAvatar(
+                            '',
+                            borderColor: index == me
+                                ? const Color(0xFFFFC107)
+                                : Colors.white,
+                            borderWidth: 3,
+                            elevation: 5,
+                            radius: MediaQuery.of(context).size.width * 0.075,
+                            child: Image(
+                              image: AssetImage(familyProfile[index]),
+                            ),
+                          ),
+                          Positioned(
+                            bottom: 0,
+                            right: 0,
+                            child: Container(
+                              height: 24,
+                              width: 24,
+                              decoration: BoxDecoration(
+                                color: index == me
+                                    ? const Color(0xFFFFC107)
+                                    : Colors.grey,
+                                shape: BoxShape.circle,
+                              ),
+                              child: Text(
+                                getEmojiFromEmotionName(
+                                    familyMember[index].emotion),
+                                textAlign: TextAlign.center,
+                                style: const TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ]),
+                        const SizedBox(
+                          height: 5,
+                        ),
+                        Text(
+                          familyMember[index].name ?? '',
+                          style: const TextStyle(
+                            fontSize: 15,
+                            color: Colors.black,
+                          ),
+                        )
+                      ],
+                    ),
+                  );
+                },
+              ),
+            )
+          ],
+        )),
+      ),
+    ));
+>>>>>>> Stashed changes
   }
 }
 
