@@ -29,7 +29,7 @@ User _$UserFromJson(Map<String, dynamic> json) => User(
       regDate: json['regDate'] as String?,
       birth: json['birth'] as String?,
       familyRole: json['familyRole'] as String?,
-    );
+    )..emotion = json['emotion'] as String?;
 
 Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
       'id': instance.id,
@@ -42,6 +42,7 @@ Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
       'regDate': instance.regDate,
       'birth': instance.birth,
       'familyRole': instance.familyRole,
+      'emotion': instance.emotion,
     };
 
 Family _$FamilyFromJson(Map<String, dynamic> json) => Family(
@@ -315,31 +316,18 @@ class _RestClient implements RestClient {
   }
 
   @override
-<<<<<<< Updated upstream
-  Future<String> getMyFamilyString({required token}) async {
-=======
   Future<List<Photo>> getFamilyPhoto({required token}) async {
->>>>>>> Stashed changes
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{r'Authorization': token};
     _headers.removeWhere((k, v) => v == null);
     final Map<String, dynamic>? _data = null;
-<<<<<<< Updated upstream
-    final _result = await _dio.fetch<String>(_setStreamType<String>(Options(
-=======
     final _result =
         await _dio.fetch<List<dynamic>>(_setStreamType<List<Photo>>(Options(
->>>>>>> Stashed changes
       method: 'GET',
       headers: _headers,
       extra: _extra,
     )
-<<<<<<< Updated upstream
-        .compose(
-          _dio.options,
-          '/family/my-family',
-=======
             .compose(
               _dio.options,
               '/photo/family',
@@ -399,16 +387,11 @@ class _RestClient implements RestClient {
         .compose(
           _dio.options,
           '/photo/${id}',
->>>>>>> Stashed changes
           queryParameters: queryParameters,
           data: _data,
         )
         .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-<<<<<<< Updated upstream
-    final value = _result.data!;
-=======
     final value = _result.data;
->>>>>>> Stashed changes
     return value;
   }
 

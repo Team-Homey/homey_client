@@ -46,10 +46,6 @@ abstract class RestClient {
   @GET('/family/my-family')
   Future<FamilyInfo> getMyFamily({@Header('Authorization') required token});
 
-<<<<<<< Updated upstream
-  @GET('/family/my-family')
-  Future<String> getMyFamilyString({@Header('Authorization') required token});
-=======
   /// Photo
   @GET('/photo/family')
   Future<List<Photo>> getFamilyPhoto({@Header('Authorization') required token});
@@ -63,7 +59,6 @@ abstract class RestClient {
       {@Header('Authorization') required token,
       @Path() required int id,
       @Body() required jsondata});
->>>>>>> Stashed changes
 }
 
 @JsonSerializable()
@@ -106,6 +101,7 @@ class User {
   String? regDate;
   String? birth;
   String? familyRole;
+  String? emotion;
 
   // factory with null safety
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
