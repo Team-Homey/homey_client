@@ -50,7 +50,7 @@ class RecommendState extends State<RecommendShow> {
             child: Column(children: [
               SizedBox(
                   width: MediaQuery.of(context).size.width * 0.8,
-                  height: MediaQuery.of(context).size.width * 0.4,
+                  height: MediaQuery.of(context).size.height * 0.25,
                   child: Image.asset(path, fit: BoxFit.cover)),
               Container(
                   margin: const EdgeInsets.only(top: 10),
@@ -62,32 +62,33 @@ class RecommendState extends State<RecommendShow> {
                               fontWeight: FontWeight.bold,
                               color: Colors.black)),
                       // show tags with horizontal scroll
-                      Container(
-                          margin: const EdgeInsets.only(left: 10),
-                          width: MediaQuery.of(context).size.width * 0.3,
-                          height: 25,
-                          alignment: Alignment.center,
-                          child: ListView.builder(
-                              scrollDirection: Axis.horizontal,
-                              itemCount: tags.length,
-                              itemBuilder: (context, index) {
-                                return Container(
-                                    alignment: Alignment.center,
-                                    margin: const EdgeInsets.only(right: 10),
-                                    decoration: BoxDecoration(
-                                        color: const Color.fromARGB(
-                                            255, 245, 245, 245),
-                                        // border: Border.all(
-                                        //     color: Colors.grey, width: 0),
-                                        borderRadius:
-                                            BorderRadius.circular(10)),
-                                    child: Text("  #${tags[index]}  ",
-                                        style: const TextStyle(
-                                            fontSize: 15,
-                                            color: Colors.grey,
-                                            fontWeight: FontWeight.bold,
-                                            fontFamily: "roboto")));
-                              }))
+                      Expanded(
+                          child: Container(
+                              margin: const EdgeInsets.only(left: 10),
+                              height: 25,
+                              alignment: Alignment.center,
+                              child: ListView.builder(
+                                  scrollDirection: Axis.horizontal,
+                                  itemCount: tags.length,
+                                  itemBuilder: (context, index) {
+                                    return Container(
+                                        alignment: Alignment.center,
+                                        margin:
+                                            const EdgeInsets.only(right: 10),
+                                        decoration: BoxDecoration(
+                                            color: const Color.fromARGB(
+                                                255, 245, 245, 245),
+                                            // border: Border.all(
+                                            //     color: Colors.grey, width: 0),
+                                            borderRadius:
+                                                BorderRadius.circular(10)),
+                                        child: Text("  #${tags[index]}  ",
+                                            style: const TextStyle(
+                                                fontSize: 15,
+                                                color: Colors.grey,
+                                                fontWeight: FontWeight.bold,
+                                                fontFamily: "roboto")));
+                                  })))
                     ],
                   ))
             ])));
@@ -130,16 +131,18 @@ class RecommendState extends State<RecommendShow> {
                                     "water",
                                     "ocean",
                                     "waterpark",
+                                    "blue"
                                   ]),
                               showImage('image2.png', 'Jungmun Beach',
                                   'https://www.google.com/', [
                                 "sea",
+                                "island",
                               ]),
                               showImage(
                                   'image3.png',
                                   'Banpo Hangang Park',
                                   'https://www.google.com/',
-                                  ["river", "colors"]),
+                                  ["river", "colors", "waterfall"]),
                               showImage(
                                   'image4.png',
                                   'Yeouido Hangang Park',

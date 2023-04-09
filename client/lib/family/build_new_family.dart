@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter/services.dart';
 
 import '../data/rest_client.dart';
 import '../data/custom_log_interceptor.dart';
@@ -125,57 +126,83 @@ class BuildNewFamilyState extends State<BuildNewFamily> {
   renderButton() {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
-        foregroundColor: Colors.amber,
-        disabledForegroundColor: const Color.fromARGB(255, 24, 24, 24),
-        minimumSize: const Size(300, 40),
-      ),
+          foregroundColor: Colors.amber,
+          disabledForegroundColor: const Color.fromARGB(255, 24, 24, 24),
+          minimumSize: Size(MediaQuery.of(context).size.width * 0.7,
+              MediaQuery.of(context).size.height * 0.08)),
       onPressed: () {
         if (formKey.currentState == null) {
           print("formKey.currentState is null");
         } else if (formKey.currentState!.validate()) {
           formKey.currentState!.save();
+          final dio = Dio()..interceptors.add(CustomLogInterceptor());
+          final restClient = RestClient(dio);
+          String? familyCode;
+          var jsondata = {
+            'name': familyName,
+          };
 
-          showDialog<void>(
-            context: context,
-            builder: (BuildContext context) {
-              return AlertDialog(
-                title: const Text('Sign Up'),
-                content: const SingleChildScrollView(
-                  child: ListBody(
-                    children: <Widget>[
-                      Text('Make family Success!'),
+          if (_accessToken != '') {
+            var fmaily = restClient.createFamily(
+                token: 'Bearer $_accessToken', jsondata: jsondata);
+            // get fmaily code
+            fmaily.then((value) {
+              familyCode = value.code;
+              print('familyCode: $familyCode');
+              showDialog<void>(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: const Text('Sign Up'),
+                    content: SingleChildScrollView(
+                      child: ListBody(
+                        children: <Widget>[
+                          const Text('Make family Success! Family Code is'),
+                          Wrap(
+                            direction: Axis.horizontal,
+                            alignment: WrapAlignment.end,
+                            children: [
+                              Text('$familyCode',
+                                  style: const TextStyle(color: Colors.grey)),
+                              FloatingActionButton(
+                                  mini: true,
+                                  backgroundColor: Colors.white,
+                                  child: const Icon(Icons.content_copy,
+                                      size: 20, color: Colors.grey),
+                                  onPressed: () {
+                                    Clipboard.setData(
+                                        ClipboardData(text: familyCode));
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                        const SnackBar(
+                                            content:
+                                                Text('Copied to Clipboard')));
+                                  }),
+                            ],
+                          )
+                        ],
+                      ),
+                    ),
+                    actions: <Widget>[
+                      TextButton(
+                        child: const Text('OK',
+                            style: TextStyle(color: Colors.amber)),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const Homey()),
+                          );
+                        },
+                      ),
                     ],
-                  ),
-                ),
-                actions: <Widget>[
-                  TextButton(
-                    child: const Text('OK'),
-                    onPressed: () {
-                      final dio = Dio()
-                        ..interceptors.add(CustomLogInterceptor());
-                      final restClient = RestClient(dio);
-                      var jsondata = {
-                        'name': familyName,
-                      };
-
-                      if (_accessToken != '') {
-                        restClient.createFamily(
-                            token: 'Bearer $_accessToken', jsondata: jsondata);
-                      } else {
-                        print('token is null');
-                      }
-
-                      Navigator.of(context).pop();
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => const Homey()),
-                      );
-                    },
-                  ),
-                ],
+                  );
+                },
               );
-            },
-          );
+            });
+          } else {
+            print('token is null');
+          }
         }
       },
       child: const Text(

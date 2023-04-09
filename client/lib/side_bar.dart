@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'google_login.dart';
 import 'test/test.dart';
@@ -181,6 +182,10 @@ class MenuItems {
         );
         break;
       case MenuItems.logout:
+        () async {
+          final prefs = await SharedPreferences.getInstance();
+          await prefs.clear();
+        };
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => GoogleLogin()),
