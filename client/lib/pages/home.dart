@@ -170,7 +170,7 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       Image(
                         image:
                             const AssetImage('assets/images/honeyCombBar.png'),
-                        height: MediaQuery.of(context).size.height * 0.08,
+                        height: MediaQuery.of(context).size.height * 0.07,
                       ),
                       Image(
                         image: const AssetImage('assets/images/honeyComb.png'),
@@ -180,13 +180,13 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                           height: MediaQuery.of(context).size.height * 0.06),
                       Image(
                         image: const AssetImage('assets/images/combShadow.png'),
-                        height: MediaQuery.of(context).size.height * 0.15,
+                        height: MediaQuery.of(context).size.height * 0.13,
                       ),
                       SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.06),
+                          height: MediaQuery.of(context).size.height * 0.01),
                       SizedBox(
                         width: MediaQuery.of(context).size.width * 0.7,
-                        height: MediaQuery.of(context).size.height * 0.05,
+                        height: MediaQuery.of(context).size.height * 0.08,
                         child: SfLinearGauge(
                           ranges: const [
                             LinearGaugeRange(

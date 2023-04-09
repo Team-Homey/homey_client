@@ -128,46 +128,18 @@ class MenuItems {
   static onChanged(BuildContext context, MenuItem item) {
     switch (item) {
       case MenuItems.profile:
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => GoogleLogin()),
-        );
         break;
       case MenuItems.gallery:
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => GoogleLogin()),
-        );
         break;
       case MenuItems.recommendation:
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => GoogleLogin()),
-        );
         break;
       case MenuItems.records:
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => GoogleLogin()),
-        );
         break;
       case MenuItems.level:
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => GoogleLogin()),
-        );
         break;
       case MenuItems.video:
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => GoogleLogin()),
-        );
         break;
       case MenuItems.todo:
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => GoogleLogin()),
-        );
         break;
       case MenuItems.test:
         Navigator.push(
@@ -176,10 +148,6 @@ class MenuItems {
         );
         break;
       case MenuItems.settings:
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => GoogleLogin()),
-        );
         break;
       case MenuItems.logout:
         () async {

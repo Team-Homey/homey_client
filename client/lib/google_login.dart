@@ -117,8 +117,8 @@ class GoogleLogin extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) =>
-                                  HomeyLogin(email: 'user3', name: 'user3')),
+                              builder: (context) => HomeyLogin(
+                                  email: 'yurim@gmail.com', name: 'Yurim')),
                         );
                       }),
                   const SizedBox(height: 20),
