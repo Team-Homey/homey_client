@@ -18,10 +18,14 @@ class GoogleLogin extends StatelessWidget {
         ),
         home: Scaffold(
             backgroundColor: Colors.white,
-            body: Center(
-                child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
+            body: SingleChildScrollView(
+                child: Center(
+                    child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.05,
+                  ),
                   Image(
                     image: const AssetImage('assets/images/Logo_White.png'),
                     height: MediaQuery.of(context).size.height * 0.4,
@@ -68,7 +72,7 @@ class GoogleLogin extends StatelessWidget {
                                     minimumSize: MaterialStateProperty.all(Size(
                                         MediaQuery.of(context).size.width * 0.8,
                                         MediaQuery.of(context).size.height *
-                                            0.08))),
+                                            0.07))),
                                 onPressed: () {
                                   if (formKey.currentState!.validate()) {
                                     formKey.currentState!.save();
@@ -112,7 +116,7 @@ class GoogleLogin extends StatelessWidget {
                       textColor: Colors.black,
                       text: "Sign up with Google",
                       width: MediaQuery.of(context).size.width * 0.8,
-                      height: MediaQuery.of(context).size.height * 0.08,
+                      height: MediaQuery.of(context).size.height * 0.07,
                       onPressed: () {
                         Navigator.push(
                           context,
@@ -122,6 +126,6 @@ class GoogleLogin extends StatelessWidget {
                         );
                       }),
                   const SizedBox(height: 20),
-                ]))));
+                ])))));
   }
 }

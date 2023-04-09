@@ -264,6 +264,10 @@ class _SignUpState extends State<SignUp> {
   renderButton() {
     return ElevatedButton(
         style: ElevatedButton.styleFrom(
+          minimumSize: Size(
+            MediaQuery.of(context).size.width * 0.7,
+            MediaQuery.of(context).size.height * 0.05,
+          ),
           foregroundColor: Colors.amber,
           disabledForegroundColor: const Color.fromARGB(255, 24, 24, 24),
         ),

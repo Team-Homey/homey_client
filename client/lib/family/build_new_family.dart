@@ -129,7 +129,7 @@ class BuildNewFamilyState extends State<BuildNewFamily> {
           foregroundColor: Colors.amber,
           disabledForegroundColor: const Color.fromARGB(255, 24, 24, 24),
           minimumSize: Size(MediaQuery.of(context).size.width * 0.7,
-              MediaQuery.of(context).size.height * 0.08)),
+              MediaQuery.of(context).size.height * 0.07)),
       onPressed: () {
         if (formKey.currentState == null) {
           print("formKey.currentState is null");

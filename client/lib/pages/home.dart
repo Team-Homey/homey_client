@@ -173,7 +173,7 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         height: MediaQuery.of(context).size.height * 0.07,
                       ),
                       Image(
-                        image: const AssetImage('assets/images/honeyComb.png'),
+                        image: const AssetImage('assets/images/honeycomb.png'),
                         height: MediaQuery.of(context).size.height * 0.3,
                       ),
                       SizedBox(

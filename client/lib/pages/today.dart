@@ -80,7 +80,8 @@ class TodayShowState extends State<TodayShow> {
     return Scaffold(
         body: Stack(children: [
       Column(children: [
-        TableCalendar<Event>(
+        SingleChildScrollView(
+            child: TableCalendar<Event>(
           rowHeight: 55,
           firstDay: kFirstDay,
           lastDay: kLastDay,
@@ -95,7 +96,7 @@ class TodayShowState extends State<TodayShow> {
                 return Center(
                   child: Text(
                     text,
-                    style: TextStyle(color: Colors.red),
+                    style: const TextStyle(color: Colors.red),
                   ),
                 );
               }
@@ -105,7 +106,7 @@ class TodayShowState extends State<TodayShow> {
                 return Center(
                   child: Text(
                     text,
-                    style: TextStyle(color: Colors.blue),
+                    style: const TextStyle(color: Colors.blue),
                   ),
                 );
               }
@@ -134,7 +135,7 @@ class TodayShowState extends State<TodayShow> {
           onPageChanged: (focusedDay) {
             _focusedDay = focusedDay;
           },
-        ),
+        )),
         const SizedBox(height: 8.0),
         Container(
           alignment: Alignment.centerRight,
@@ -180,7 +181,7 @@ class TodayShowState extends State<TodayShow> {
                                 ),
                                 const SizedBox(height: 10),
                                 SizedBox(
-                                    height: 60,
+                                    height: 70,
                                     width: MediaQuery.of(context).size.width,
                                     child: ListView.builder(
                                         scrollDirection: Axis.horizontal,
@@ -226,25 +227,25 @@ class TodayShowState extends State<TodayShow> {
                                 ),
                                 const SizedBox(height: 15),
                                 Container(
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.9,
-                                  height:
-                                      MediaQuery.of(context).size.height * 0.1,
-                                  alignment: Alignment.center,
-                                  decoration: BoxDecoration(
-                                    border: Border.all(
-                                      color: Colors.grey,
+                                    width:
+                                        MediaQuery.of(context).size.width * 0.9,
+                                    alignment: Alignment.center,
+                                    decoration: BoxDecoration(
+                                      border: Border.all(
+                                        color: Colors.grey,
+                                      ),
+                                      borderRadius: BorderRadius.circular(12.0),
                                     ),
-                                    borderRadius: BorderRadius.circular(12.0),
-                                  ),
-                                  child: const Text(
-                                      "Do you know about your family's hobbies?",
-                                      style: TextStyle(
-                                          color:
-                                              Color.fromARGB(255, 62, 62, 62),
-                                          fontSize: 20,
-                                          fontFamily: "Roboto")),
-                                ),
+                                    child: Container(
+                                      margin: EdgeInsets.all(20),
+                                      child: const Text(
+                                          "Do you know about your family's hobbies?",
+                                          style: TextStyle(
+                                              color: Color.fromARGB(
+                                                  255, 62, 62, 62),
+                                              fontSize: 20,
+                                              fontFamily: "Roboto")),
+                                    )),
                                 const SizedBox(height: 20),
                                 Container(
                                   alignment: Alignment.centerLeft,
