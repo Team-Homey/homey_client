@@ -49,7 +49,7 @@ class _CustomButtonTestState extends State<CustomButtonTest> {
               MenuItems.onChanged(context, value as MenuItem);
             },
             dropdownStyleData: DropdownStyleData(
-              width: 160,
+              width: 180,
               padding: const EdgeInsets.symmetric(vertical: 6),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(4),
